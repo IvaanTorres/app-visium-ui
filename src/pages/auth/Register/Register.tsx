@@ -2,6 +2,7 @@ import MyAvatar from "../../../components/atoms/MyAvatar/MyAvatar"
 import MyButton from "../../../components/atoms/MyButton/MyButton"
 import { AuthWrapper, langSelectStyle } from "./styles/styles"
 import getFirstLetters from "../../../shared/helpers/getFirstLetters"
+import MyLink from "../../../components/atoms/MyLink/MyLink"
 
 const Register = () => {
 
@@ -20,6 +21,7 @@ const Register = () => {
       {/* Card */}
       <div>
         <p>Title</p>
+        <MyLink to="/auth/login">Login</MyLink>
         <MyAvatar value={getFirstLetters('Ivan Torres Garcia')} />
         {/* Form */}
       </div>
