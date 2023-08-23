@@ -5,14 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:docker": "vite --host --port 3000",
     "build": "tsc && vite build",
+    "build:docker": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky install",
     "release:patch": "git add . && standard-version -a --no-verify --release-as patch",
     "release:minor": "git add . && standard-version -a --no-verify --release-as minor",
     "release:major": "git add . && standard-version -a --no-verify --release-as major",
-    "release:dry": "git add . && standard-version -a --dry-run --no-verify"
+    "release:dry": "git add . && standard-version -a --dry-run --no-verify",
+    "docker:local:dev": "docker image prune -f && docker-compose down && docker-compose up --build --remove-orphans",
+    "docker:local:staging": "docker image prune -f && docker-compose down && docker-compose -f ./docker-compose.staging.yml up --build --remove-orphans"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.33.0",

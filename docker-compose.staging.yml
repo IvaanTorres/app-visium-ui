@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  ui:
+    container_name: app-ui
+    build:
+      context: ./
+      target: prod
+    ports:
+      - '80:80'
+    volumes:
+      - '/usr/src/app/node_modules'
+      - '.:/usr/src/app'
+
+networks: 
+  default:
+    name: app-visium-network
