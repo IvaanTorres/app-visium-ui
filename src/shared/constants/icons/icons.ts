@@ -1,0 +1,7 @@
+export const ICON_SETTINGS = 'ico-settings'
+export const ICON_VISIBILITY = 'ico-visibility-on'
+export const ICON_VISIBILITY_OFF = 'ico-visibility-off'
+export const ICON_CANCEL = 'ico-cancel'
+export const ICON_BIN = 'ico-bin'
+export const ICON_POWER = 'ico-power'
+export const ICON_TRANSLATE = 'ico-translate'

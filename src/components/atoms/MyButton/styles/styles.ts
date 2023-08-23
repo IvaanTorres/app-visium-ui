@@ -3,6 +3,7 @@ import colors from '../../../../shared/constants/design-system/colors'
 
 export const buttonCustom = css`
   border: none;
+  cursor: pointer;
 `
 
 /* ---------------------------------- Types --------------------------------- */
