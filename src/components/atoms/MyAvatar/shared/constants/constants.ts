@@ -1,0 +1,1 @@
+export const SUPPORTED_FILES = ['png', 'jpg', 'jpeg', 'gif', 'svg']
