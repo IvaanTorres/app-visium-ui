@@ -1,24 +1,36 @@
-import './App.css'
-// import { useQuery } from '@tanstack/react-query'
-// import moment from 'moment'
-import { useTranslation } from 'react-i18next'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Homepage from "./pages/Homepage/Homepage";
+import Register from "./pages/auth/Register/Register";
+import Login from "./pages/auth/Login/login";
+import SettingsGeneral from "./pages/settings/SettingsGeneral";
 
 function App() {
-  // const {data, isLoading, error} = useQuery({
-  //   queryKey: ['todos'], 
-  //   queryFn: () => {
 
-  //   }
-  // })
-  const { t } = useTranslation();
-  // const test = moment().format('YYYY-MM-DD HH:mm:ss')
-
-  // console.log(data, isLoading, error, test);
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Homepage />,
+    },
+    {
+      path: "/auth/register",
+      element: <Register />,
+    },
+    {
+      path: "/auth/login",
+      element: <Login />,
+    },
+    {
+      path: "/settings",
+      element: <SettingsGeneral />,
+    },
+    
+  ]);
 
   return (
-    <div>
-      {t('headerTitle', { appName: "App for Translations" })}
-    </div>
+    <RouterProvider router={router} />
   )
 }
 
