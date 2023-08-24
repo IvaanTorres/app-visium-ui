@@ -1,4 +1,5 @@
 import MySection from "../../../components/molecules/MySection/MySection"
+// import MyInput from "../../../components/molecules/form/MyInput/MyInput"
 import { AuthWrapper } from "./styles/styles"
 
 const Register = () => {
@@ -8,15 +9,7 @@ const Register = () => {
       <MySection
         title="Register"
       >
-        <h3>Content</h3>
-        <h3>Content</h3>
-        <h3>Content</h3>
-        <h3>Content</h3>
-        <h3>Content</h3>
-        <h3>Content</h3>
-        <h3>Content</h3>
-        <h3>Content</h3>
-        <h3>Content</h3>
+        {/* <MyInput /> */}
       </MySection>
     </AuthWrapper>
   )
