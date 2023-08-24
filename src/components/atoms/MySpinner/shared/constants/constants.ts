@@ -1,0 +1,1 @@
+export const PROPORTIONAL_SIZES = 0.8 // 80%

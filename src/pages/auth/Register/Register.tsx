@@ -1,23 +1,23 @@
-import MyModal from "../../../components/organisms/MyModal/MyModal"
+import MySection from "../../../components/molecules/MySection/MySection"
 import { AuthWrapper } from "./styles/styles"
 
 const Register = () => {
 
   return (
     <AuthWrapper>
-      <MyModal
-        isOpen={true}
-        title="Register Modal"
-        actions={{
-          primary: {
-            type: "info",
-            action: () => console.log("Primary button clicked"),
-            text: "Primary",
-          },
-        }}
+      <MySection
+        title="Register"
       >
-        <div>Register</div>
-      </MyModal>
+        <h3>Content</h3>
+        <h3>Content</h3>
+        <h3>Content</h3>
+        <h3>Content</h3>
+        <h3>Content</h3>
+        <h3>Content</h3>
+        <h3>Content</h3>
+        <h3>Content</h3>
+        <h3>Content</h3>
+      </MySection>
     </AuthWrapper>
   )
 }

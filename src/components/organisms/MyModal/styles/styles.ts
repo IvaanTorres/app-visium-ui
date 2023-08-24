@@ -51,7 +51,7 @@ export const myModalStyle = ({
   .bottom-bar {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: ${spaces.size_4xs};
     flex: 0 0 40px;
   }
 `

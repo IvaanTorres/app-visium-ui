@@ -6,24 +6,25 @@ import Homepage from "./pages/Homepage/Homepage";
 import Register from "./pages/auth/Register/Register";
 import Login from "./pages/auth/Login/login";
 import SettingsGeneral from "./pages/settings/SettingsGeneral";
+import { ROUTE_HOMEPAGE, ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_SETTINGS } from "./shared/constants/router/routes";
 
 function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: ROUTE_HOMEPAGE,
       element: <Homepage />,
     },
     {
-      path: "/auth/register",
+      path: ROUTE_REGISTER,
       element: <Register />,
     },
     {
-      path: "/auth/login",
+      path: ROUTE_LOGIN,
       element: <Login />,
     },
     {
-      path: "/settings",
+      path: ROUTE_SETTINGS,
       element: <SettingsGeneral />,
     },
     

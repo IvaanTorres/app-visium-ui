@@ -6,5 +6,4 @@ export const myBoxStyle = ({
 }) => css`
   border: ${hasBorder ? `1px solid ${colors.grey[500]}` : "none"};
   background-color: ${colors.white};
-  width: 100px;
 `
