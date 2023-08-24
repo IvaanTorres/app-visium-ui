@@ -1,5 +1,7 @@
 import { css } from "@emotion/css";
 import colors from "../../../../shared/constants/design-system/colors";
+import spaces from "../../../../shared/constants/design-system/spaces";
+import { PROPORTIONAL_SIZES } from "../shared/constants/constants";
 
 export const mySpinnerStyle = ({
   size = 80,
@@ -14,10 +16,12 @@ export const mySpinnerStyle = ({
     box-sizing: border-box;
     display: block;
     position: absolute;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border: 8px solid ${color};
+    /* width: 64px;
+    height: 64px; */
+    width: ${size * PROPORTIONAL_SIZES}px;
+    height: ${size * PROPORTIONAL_SIZES}px;
+    margin: ${spaces.size_5xs};
+    border: ${spaces.size_5xs} solid ${color};
     border-radius: 50%;
     animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     border-color: ${color} transparent transparent transparent;

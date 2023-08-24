@@ -13,7 +13,12 @@ const MyLink = (props: MyLinkProps) => {
   }
 
   return (
-    <p onClick={handleClick} className={clsx(props.className, myLinkStyle)}>{props.children}</p>
+    <p 
+      onClick={handleClick} 
+      className={clsx(props.className, myLinkStyle)}
+    >
+      {props.children}
+    </p>
   )
 }
 
