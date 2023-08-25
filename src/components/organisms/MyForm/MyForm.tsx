@@ -13,6 +13,8 @@ import { myButtonStyle, myFormStyle } from "./styles/styles";
 const MyForm = (props: MyFormProps) => {
   const [state, setState] = useState<MyFormState['get']>(props.state.get);
 
+  const hasErrors = state.errors.length > 0
+
   // Run on every input change (Another option is to run just when the form is submitted)
   function stateSetter<T>(stateName: string, stack: {
     value: T,
@@ -86,10 +88,10 @@ const MyForm = (props: MyFormProps) => {
               <MyButton
                 type={action.type}
                 importance={action.importance}
-                onClick={action.onClick}
+                onClick={(action.disabled || (hasErrors && action.isSubmit)) ? () => {} : action.onClick}
                 isSubmit={action.isSubmit}
                 className={clsx(myButtonStyle, action.className)}
-                disabled={action.disabled}
+                disabled={action.disabled || (hasErrors && action.isSubmit)}
               >
                 {action.children}
               </MyButton>

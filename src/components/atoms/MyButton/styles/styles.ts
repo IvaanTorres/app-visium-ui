@@ -9,65 +9,77 @@ export const buttonCustom = css`
 /* ---------------------------------- Types --------------------------------- */
 
 // Info
-export const infoPrimary = css`
-  background-color: ${colors.blue[500]};
-  color: ${colors.white};
+export const infoPrimary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[500] : colors.blue[500]};
+  color: ${isDisabled ? colors.grey[900] : colors.white};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
-export const infoSecondary = css`
-  background-color: ${colors.white};
-  color: ${colors.blue[500]};
+export const infoSecondary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[900] : colors.white};
+  color: ${isDisabled ? colors.grey[500] : colors.blue[500]};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
-export const infoTertiary = css`
-  background-color: transparent;
-  color: ${colors.blue[500]};
+export const infoTertiary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[900] : 'transparent'};
+  color: ${isDisabled ? colors.grey[500] : colors.blue[500]};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
 // Success
-export const successPrimary = css`
-  background-color: ${colors.green[500]};
-  color: ${colors.white};
+export const successPrimary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[500] : colors.green[500]};
+  color: ${isDisabled ? colors.grey[900] : colors.white};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
-export const successSecondary = css`
-  background-color: ${colors.white};
-  color: ${colors.green[500]};
+export const successSecondary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[900] : colors.white};
+  color: ${isDisabled ? colors.grey[500] : colors.green[500]};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
-export const successTertiary = css`
-  background-color: transparent;
-  color: ${colors.green[500]};
+export const successTertiary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[900] : 'transparent'};
+  color: ${isDisabled ? colors.grey[500] : colors.green[500]};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
 // Warning
-export const warningPrimary = css`
-  background-color: ${colors.yellow[500]};
-  color: ${colors.white};
+export const warningPrimary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[500] : colors.yellow[500]};
+  color: ${isDisabled ? colors.grey[900] : colors.white};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
-export const warningSecondary = css`
-  background-color: ${colors.white};
-  color: ${colors.yellow[500]};
+export const warningSecondary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[900] : colors.white};
+  color: ${isDisabled ? colors.grey[500] : colors.yellow[500]};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
-export const warningTertiary = css`
-  background-color: transparent;
-  color: ${colors.yellow[500]};
+export const warningTertiary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[900] : 'transparent'};
+  color: ${isDisabled ? colors.grey[500] : colors.yellow[500]};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
 // Danger
-export const dangerPrimary = css`
-  background-color: ${colors.red[500]};
-  color: ${colors.white};
+export const dangerPrimary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[500] : colors.red[500]};
+  color: ${isDisabled ? colors.grey[900] : colors.white};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
-export const dangerSecondary = css`
-  background-color: ${colors.white};
-  color: ${colors.red[500]};
+export const dangerSecondary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[900] : colors.white};
+  color: ${isDisabled ? colors.grey[500] : colors.red[500]};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `
 
-export const dangerTertiary = css`
-  background-color: transparent;
-  color: ${colors.red[500]};
+export const dangerTertiary = (isDisabled?: boolean) => css`
+  background-color: ${isDisabled ? colors.grey[900] : 'transparent'};
+  color: ${isDisabled ? colors.grey[500] : colors.red[500]};
+  cursor: ${isDisabled ? 'not-allowed' : 'cursor'};
 `

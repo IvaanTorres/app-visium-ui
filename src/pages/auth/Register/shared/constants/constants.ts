@@ -1,9 +1,10 @@
 import { AllFields, MyFormConfig, MyFormState } from "../../../../../components/organisms/MyForm/shared/types/types"
+import { REGEX } from "../../../../../shared/constants/texts/regex"
 
 const initialFormState: MyFormState['get'] = {
   values: {
-    email: '',
-    locale: 'en'
+    usernameEmail: '',
+    password: ''
   },
   errors: [],
 }
@@ -11,42 +12,22 @@ const initialFormState: MyFormState['get'] = {
 const formFields: AllFields[] = [
   {
     type: "text",
-    label: "Email",
-    helper: "Use your email to register (john@example.com)",
-    placeholder: "Email",
-    stateName: "email",
+    label: "Email or username",
+    helper: "Use your email (ex: john@example.com) or username (ex: john.boston_02)",
+    stateName: "usernameEmail",
     custom: {
-      isDisabled: false,
-      classList: '',
-      pattern: /\S+@\S+\.\S+/,
-      // suffix: <MyIcon icon={ICON_TRANSLATE} size={30} />,
+      isRequired: true,
+      pattern: [REGEX.EMAIL, REGEX.USERNAME],
     }
   },
   {
-    type: "select",
-    label: "Locale",
-    helper: "Helper select text",
-    stateName: "locale",
-    options: [
-      {
-        label: "En",
-        id: "en",
-        isDefault: true,
-      },
-      {
-        label: "Es",
-        id: "es",
-      },
-      {
-        label: "Fr",
-        id: "fr",
-      },
-    ],
+    type: "hidden",
+    label: "Password",
+    helper: "Use your password (Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character)",
+    stateName: "password",
     custom: {
-      classList: '',
-      isDisabled: false,
       isRequired: true,
-      hasDropdownIcon: false,
+      pattern: [REGEX.PASSWORD],
     }
   }
 ]
@@ -55,13 +36,14 @@ const formConfig: MyFormConfig = {
   fields: formFields,
   actions: {
     primary: {
-      children: 'Register',
+      children: 'Let\'s go !',
       onClick: () => {
         console.log('Register')
       },
       type: 'info',
       importance: 'primary',
       isSubmit: true,
+      disabled: false,
     },
     secondary: {
       children: 'Go to login',
@@ -70,6 +52,7 @@ const formConfig: MyFormConfig = {
       },
       type: 'info',
       importance: 'secondary',
+      disabled: false,
     },
   }
 }

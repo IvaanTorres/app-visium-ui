@@ -1,16 +1,20 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MyBox from "../../../components/atoms/MyBox/MyBox"
 import MySelect from "../../../components/molecules/form/MySelect/MySelect"
 import { MySelectOption } from "../../../components/molecules/form/MySelect/shared/types/types"
 import MyForm from "../../../components/organisms/MyForm/MyForm"
 import { MyFormState } from "../../../components/organisms/MyForm/shared/types/types"
-import { langSelectConfig, loginForm } from "./shared/constants/constants"
-import { AuthWrapper } from "../styles/styles"
-import { loginCardStyle, loginFormStyle } from "./styles/styles"
+import { loginForm } from "./shared/constants/constants"
+import { AuthWrapper, authCardStyle, authFormStyle } from "../styles/styles"
+import { langSelectConfig } from "../shared/constants/constants"
 
 const Login = () => {
   const [locale, setLocale] = useState<MySelectOption | null>(null)
-  const [formState, setFormState] = useState<MyFormState['get']>(loginForm.initialState)
+  const [form, setForm] = useState<MyFormState['get']>(loginForm.initialState)
+
+  useEffect(() => {
+    console.log(form)
+  }, [form])
 
   return (
     <AuthWrapper>
@@ -26,18 +30,18 @@ const Login = () => {
       />
 
       {/* Card */}
-      <MyBox className={loginCardStyle}>
+      <MyBox className={authCardStyle}>
         <h1 className="title">Login</h1>
         <MyForm
           config={loginForm.config}
           state={{
-            get: formState,
+            get: form,
             set(newFormState) {
-              setFormState(newFormState)
+              setForm(newFormState)
             },
           }}
           custom={{
-            classList: loginFormStyle
+            classList: authFormStyle
           }}
         />
       </MyBox>
