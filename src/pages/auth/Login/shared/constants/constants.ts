@@ -38,26 +38,24 @@ const formConfig: MyFormConfig = {
     primary: {
       children: 'Let\'s go !',
       onClick: () => {
-        console.log('Register')
+        console.log('Login')
       },
       type: 'info',
       importance: 'primary',
       isSubmit: true,
-      disabled: false,
     },
     secondary: {
-      children: 'Go to login',
+      children: 'Go to register',
       onClick: () => {
-        console.log('Go to login')
+        console.log('Go to register')
       },
       type: 'info',
       importance: 'secondary',
-      disabled: false,
     },
   }
 }
 
-export const registerForm = {
+export const loginForm = {
   config: formConfig,
   initialState: initialFormState
 }

@@ -4,7 +4,9 @@ import { buttonCustom } from "./styles/styles"
 import clsx from "clsx"
 
 const MyButton = (props: MyButtonProps) => {
-  const buttonStyle = buttons[props.type][props.importance]
+  const buttonStyle = buttons({
+    isDisabled: props.disabled
+  })[props.type][props.importance]
 
   return (
     <button

@@ -12,7 +12,7 @@ export type MyTextInputConfig = {
     isRequired?: boolean,
     prefix?: React.ReactNode,
     suffix?: React.ReactNode,
-    pattern?: RegExp,
+    pattern?: RegExp[],
     classList?: string
   }
 }

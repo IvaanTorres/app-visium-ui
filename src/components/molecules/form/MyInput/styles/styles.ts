@@ -64,6 +64,7 @@ export const myTextInputStyle = ({
       width: 100%;
       cursor: ${isDisabled ? 'not-allowed' : 'usnet'};
       transition: border-color 0.2s ease-in-out;
+      padding: 0px ${spaces.size_4xs};
     }
 
     .input-suffix {

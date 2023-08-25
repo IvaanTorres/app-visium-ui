@@ -20,6 +20,10 @@ export const mySelectStyle = css`
       background-color: ${colors.white};
       font-weight: ${fontWeights.bold};
 
+      img {
+        width: 100%;
+      }
+
     }
 
     .options {
@@ -29,6 +33,7 @@ export const mySelectStyle = css`
       margin-top: ${spaces.size_6xs};
       border: 1px solid ${colors.grey[700]};
       background-color: ${colors.white};
+      box-sizing: border-box;
 
       .option {
         padding: 0px ${spaces.size_4xs};
@@ -39,6 +44,10 @@ export const mySelectStyle = css`
         box-sizing: border-box;
         background-color: ${colors.white};
         transition: all 0.1s ease-in-out;
+        
+        img {
+          width: 100%;
+        }
 
         &:hover {
           background-color: ${colors.blue[900]};
