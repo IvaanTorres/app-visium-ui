@@ -1,5 +1,7 @@
 import { css } from "@emotion/css";
 import colors from "../../../../../shared/constants/design-system/colors";
+import { MytextInputStyle } from "../shared/types/types";
+import fontWeights from "../../../../../shared/constants/design-system/font-weights";
 
 const resetInputStyle = css`
   background-color: transparent;
@@ -17,7 +19,10 @@ const resetInputStyle = css`
   vertical-align: middle;
 `;
 
-export const myTextInputStyle = css`
+export const myTextInputStyle = ({
+  isDisabled,
+  hasError
+}: MytextInputStyle) => css`
   display: flex;
   flex-direction: column;
 
@@ -34,10 +39,12 @@ export const myTextInputStyle = css`
   .input-wrapper {
     display: flex;
     align-items: center;
-    border: 1px solid ${colors.grey[500]};
+    background-color: ${isDisabled ? colors.grey[900] : colors.white};
+    border: ${hasError ? `1px solid ${colors.red[500]}` : `1px solid ${colors.grey[300]}`};
     box-sizing: border-box;
     height: 40px;
     gap: 10px;
+    cursor: ${isDisabled ? 'not-allowed' : 'usnet'};
 
     .input-prefix {
       display: flex;
@@ -51,9 +58,11 @@ export const myTextInputStyle = css`
       ${resetInputStyle}
       height: 100%;
       font-size: 16px;
+      font-weight: ${fontWeights.bold};
       line-height: 20px;
-      color: #000;
+      color: ${isDisabled ? colors.grey[600] : colors.black};
       width: 100%;
+      cursor: ${isDisabled ? 'not-allowed' : 'usnet'};
       transition: border-color 0.2s ease-in-out;
     }
 
@@ -61,7 +70,7 @@ export const myTextInputStyle = css`
       display: flex;
       align-items: center;
       height: 100%;
-      cursor: pointer;
+      cursor: ${isDisabled ? 'not-allowed' : 'pointer'};
       padding: 0px 5px;
     }
   }

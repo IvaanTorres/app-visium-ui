@@ -6,7 +6,7 @@ export const AuthWrapper = styled.div`
   min-height: 100vh;
   width: 100vw;
   /* background-color: ${colors.blue[500]}; */
-  background-color: lightblue;
+  background-color: ${colors.white};
 `
 
 export const langSelectStyle = css`

@@ -10,7 +10,7 @@ const Register = () => {
   const config: MyTextInputConfig = {
     type: "hidden",
     label: "Email",
-    helper: "email",
+    helper: "Use your email to register (john@example.com)",
     placeholder: "Email",
     stateName: "email",
     custom: {
@@ -29,9 +29,9 @@ const Register = () => {
         <MyInput 
           config={config} 
           state={{
-            getter: 'test',
-            setter: (value: string | number) => {
-              console.log('REGISTER', value);
+            get: 'test',
+            set: (value: string | number, error) => {
+              console.log('REGISTER', value, error);
             }
           }}
         />
