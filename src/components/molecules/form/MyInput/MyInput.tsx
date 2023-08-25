@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import clsx from "clsx"
-import { MyTextInputError, MyTextInputProps, MyTextInputState } from "./shared/types/types"
+import { MyTextInputProps, MyTextInputState } from "./shared/types/types"
 import { myTextInputStyle } from "./styles/styles"
 import { useToggle } from "../../../../shared/hooks/useToggle"
 import MyIcon from "../../../atoms/MyIcon/MyIcon"
@@ -11,10 +11,12 @@ import colors from "../../../../shared/constants/design-system/colors"
 import useDebounce from "../../../../shared/hooks/useDebounce"
 import { hasSpecialChars } from "../../../../shared/helpers/hasSpecialChars"
 import { BLOCKED_CHARS } from "../../../../shared/constants/texts/forms"
+import { MyFieldError } from "../../../../shared/types/texts/forms/forms"
+import { MyFieldErrorStyled, MyFieldHelperStyled, MyFieldLabelStyled } from "../../../../shared/styles/form"
 
 const MyInput = (props: MyTextInputProps) => {
   const [value, setValue] = useState(props.state.get)
-  const [error, setError] = useState<MyTextInputError | null>(null)
+  const [error, setError] = useState<MyFieldError | null>(null)
   const [isContentHidden, toggleContentHidden] = useToggle(false)
   const debouncedValue = useDebounce(value, 300);
 
@@ -88,7 +90,7 @@ const MyInput = (props: MyTextInputProps) => {
       isDisabled: inputCustomConfig?.isDisabled ?? false,
       hasError: Boolean(error),
     }))}>
-      {props.config.label && (<label className="label">{props.config.label}</label>)}
+      {props.config.label && (<MyFieldLabelStyled className="label">{props.config.label}</MyFieldLabelStyled>)}
       <div className="input-wrapper">
         {(inputCustomConfig?.prefix) && <span className="input-prefix">{inputCustomConfig.prefix}</span>}
         <input className="input" type={type} value={value} onChange={handleChangeInput} placeholder={props.config.placeholder} disabled={props.config.custom?.isDisabled} />
@@ -100,8 +102,8 @@ const MyInput = (props: MyTextInputProps) => {
           ))}
         </span>
       </div>
-      {props.config.helper && (<span className="helper">{props.config.helper}</span>)}
-      {error && (<span className="error">{error.message}</span>)}
+      {props.config.helper && (<MyFieldHelperStyled className="helper">{props.config.helper}</MyFieldHelperStyled>)}
+      {error && (<MyFieldErrorStyled className="error">{error.message}</MyFieldErrorStyled>)}
     </div>
   )
 }

@@ -26,14 +26,12 @@ export const myTextInputStyle = ({
   display: flex;
   flex-direction: column;
 
-  .label, .helper {
-    font-size: 14px;
-    line-height: 20px;
-    color: ${colors.grey[500]};
+  .label {
+    
   }
 
   .helper {
-    font-size: 12px;
+    
   }
 
   .input-wrapper {
@@ -76,8 +74,6 @@ export const myTextInputStyle = ({
   }
 
   .error {
-    font-size: 12px;
-    line-height: 20px;
-    color: ${colors.red[500]};
+
   }
 `
