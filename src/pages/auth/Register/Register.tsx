@@ -1,67 +1,25 @@
-// import MyIcon from "../../../components/atoms/MyIcon/MyIcon"
+import { useState } from "react"
 import MySection from "../../../components/molecules/MySection/MySection"
-// import MyInput from "../../../components/molecules/form/MyInput/MyInput"
-// import { MyTextInputConfig } from "../../../components/molecules/form/MyInput/shared/types/types"
-import MySelect from "../../../components/molecules/form/MySelect/MySelect"
-import { MySelectConfig } from "../../../components/molecules/form/MySelect/shared/types/types"
-// import { ICON_TRANSLATE } from "../../../shared/constants/icons/icons"
+import MyForm from "../../../components/organisms/MyForm/MyForm"
+import { MyFormState } from "../../../components/organisms/MyForm/shared/types/types"
 import { AuthWrapper } from "./styles/styles"
+import { registerForm } from "./shared/constants/constants"
 
 const Register = () => {
-
-  // const config: MyTextInputConfig = {
-  //   type: "hidden",
-  //   label: "Email",
-  //   helper: "Use your email to register (john@example.com)",
-  //   placeholder: "Email",
-  //   stateName: "email",
-  //   custom: {
-  //     isDisabled: false,
-  //     classList: '',
-  //     pattern: /\S+@\S+\.\S+/,
-  //     // suffix: <MyIcon icon={ICON_TRANSLATE} size={30} />,
-  //   }
-  // }
-  const config: MySelectConfig = {
-    type: "select",
-    label: "Locale",
-    helper: "Helper select text",
-    stateName: "locale",
-    options: [
-      {
-        label: "En",
-        id: "en",
-        isDefault: true,
-      },
-      {
-        label: "Es",
-        id: "es",
-      },
-      {
-        label: "Fr",
-        id: "fr",
-      },
-    ],
-    custom: {
-      classList: '',
-      isDisabled: false,
-      isRequired: true,
-      hasDropdownIcon: false,
-    }
-  }
+  const [formState, setFormState] = useState<MyFormState['get']>(registerForm.initialState)
 
   return (
     <AuthWrapper>
       <MySection
         title="Register"
       >
-        <MySelect 
-          config={config} 
+        <MyForm 
+          config={registerForm.config}
           state={{
-            get: null,
-            set: (option) => {
-              console.log('SELECT', option);
-            }
+            get: formState,
+            set(newFormState) {
+              setFormState(newFormState)
+            },
           }}
         />
       </MySection>

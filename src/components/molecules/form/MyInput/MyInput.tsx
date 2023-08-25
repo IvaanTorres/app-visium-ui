@@ -9,16 +9,16 @@ import { SELECTABLE_FOR_HIDDING } from "./shared/constants/constants"
 import { startTransition, useEffect, useState } from "react"
 import colors from "../../../../shared/constants/design-system/colors"
 import useDebounce from "../../../../shared/hooks/useDebounce"
-import { hasSpecialChars } from "../../../../shared/helpers/hasSpecialChars"
 import { BLOCKED_CHARS } from "../../../../shared/constants/texts/forms"
 import { MyFieldError } from "../../../../shared/types/texts/forms/forms"
 import { MyFieldErrorStyled, MyFieldHelperStyled, MyFieldLabelStyled } from "../../../../shared/styles/form"
+import hasSpecialChars from "../../../../shared/helpers/hasSpecialChars"
 
 const MyInput = (props: MyTextInputProps) => {
   const [value, setValue] = useState(props.state.get)
   const [error, setError] = useState<MyFieldError | null>(null)
   const [isContentHidden, toggleContentHidden] = useToggle(false)
-  const debouncedValue = useDebounce(value, 300);
+  const [debouncedValue, isDebouncing] = useDebounce(value, 300);
 
   const inputCustomConfig = props.config.custom
   const canHide = props.config.type === 'hidden'
@@ -31,10 +31,12 @@ const MyInput = (props: MyTextInputProps) => {
 )
 
   useEffect(() => {
-    startTransition(() => {
-      props.state.set(debouncedValue, error);
-    })
-  }, [debouncedValue, props.state, error]);
+    if(!isDebouncing){
+      startTransition(() => {
+        props.state.set(debouncedValue, error);
+      })
+    }
+  }, [debouncedValue, error]);
 
   useEffect(() => {
     if(value){
@@ -76,7 +78,16 @@ const MyInput = (props: MyTextInputProps) => {
     ]
 
     const valueErrors = conditions.find(condition => condition.check)
-    setError(valueErrors?.error ?? null);
+
+    if(valueErrors) {
+      const error: MyFieldError = {
+        message: valueErrors.error.message,
+        stateName: props.config.stateName,
+      }
+      setError(error);
+    } else {
+      setError(null);
+    }
   }
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
