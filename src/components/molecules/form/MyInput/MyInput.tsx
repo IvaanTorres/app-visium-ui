@@ -9,19 +9,21 @@ import { SELECTABLE_FOR_HIDDING } from "./shared/constants/constants"
 import { startTransition, useEffect, useState } from "react"
 import colors from "../../../../shared/constants/design-system/colors"
 import useDebounce from "../../../../shared/hooks/useDebounce"
-import { BLOCKED_CHARS } from "../../../../shared/constants/texts/forms"
+// import { BLOCKED_CHARS } from "../../../../shared/constants/texts/forms"
 import { MyFieldError } from "../../../../shared/types/texts/forms/forms"
 import { MyFieldErrorStyled, MyFieldHelperStyled, MyFieldLabelStyled } from "../../../../shared/styles/form"
-import hasSpecialChars from "../../../../shared/helpers/hasSpecialChars"
+import testMultipleRegex from "../../../../shared/helpers/testMultipleRegex"
+// import hasSpecialChars from "../../../../shared/helpers/hasSpecialChars"
 
 const MyInput = (props: MyTextInputProps) => {
   const [value, setValue] = useState(props.state.get)
   const [error, setError] = useState<MyFieldError | null>(null)
-  const [isContentHidden, toggleContentHidden] = useToggle(false)
+  const [isContentHidden, toggleContentHidden] = useToggle(true)
   const [debouncedValue, isDebouncing] = useDebounce(value, 300);
 
   const inputCustomConfig = props.config.custom
   const canHide = props.config.type === 'hidden'
+  const isRequired = props.config.custom?.isRequired
   const type = (
     canHide
       ? isContentHidden
@@ -38,43 +40,31 @@ const MyInput = (props: MyTextInputProps) => {
     }
   }, [debouncedValue, error]);
 
-  useEffect(() => {
-    if(value){
-      checkErrors(value)
-    }
-  }, [value])
-
-  const checkErrors = (value: MyTextInputState) => {
+  const checkErrors = (val: MyTextInputState) => {
     const isRequired = props.config.custom?.isRequired
     const pattern = props.config.custom?.pattern
-    const stringifiedValue = value.toString()
+    const stringifiedValue = val.toString()
 
     // Ordered by priority
     const conditions = [
       {
-        check: !(pattern?.test(stringifiedValue)),
+        check: isRequired && (!val || stringifiedValue.length <= 0),
+        error: {
+          message: 'This field is required'
+        }
+      },
+      {
+        check: pattern && !(testMultipleRegex(pattern, stringifiedValue)),
         error: {
           message: `Invalid ${(props.config.label ?? 'value')?.toLowerCase()}`
         }
       },
-      {
-        check: isRequired && !value,
-        error: {
-          message: 'This field is required'
-        }
-      },
-      {
-        check: hasSpecialChars(stringifiedValue, 'email'),
-        error: {
-          message: `Invalid ${(props.config.label ?? 'value')?.toLowerCase()}. Blocked characters: ${BLOCKED_CHARS['email'].join(', ')}`
-        }
-      },
-      {
-        check: stringifiedValue.length <= 0,
-        error: {
-          message: 'This field is required'
-        }
-      }
+      // {
+      //   check: hasSpecialChars(stringifiedValue, 'email'),
+      //   error: {
+      //     message: `Invalid ${(props.config.label ?? 'value')?.toLowerCase()}. Blocked characters: ${BLOCKED_CHARS['email'].join(', ')}`
+      //   }
+      // },
     ]
 
     const valueErrors = conditions.find(condition => condition.check)
@@ -92,7 +82,9 @@ const MyInput = (props: MyTextInputProps) => {
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(!props.config.custom?.isDisabled){
-      setValue(e.target.value)
+      const newValue = e.target.value
+      setValue(newValue)
+      checkErrors(newValue)
     }
   }
 
@@ -101,7 +93,7 @@ const MyInput = (props: MyTextInputProps) => {
       isDisabled: inputCustomConfig?.isDisabled ?? false,
       hasError: Boolean(error),
     }))}>
-      {props.config.label && (<MyFieldLabelStyled className="label">{props.config.label}</MyFieldLabelStyled>)}
+      {props.config.label && (<MyFieldLabelStyled className="label">{props.config.label}{isRequired ? '*' : ''}</MyFieldLabelStyled>)}
       <div className="input-wrapper">
         {(inputCustomConfig?.prefix) && <span className="input-prefix">{inputCustomConfig.prefix}</span>}
         <input className="input" type={type} value={value} onChange={handleChangeInput} placeholder={props.config.placeholder} disabled={props.config.custom?.isDisabled} />
