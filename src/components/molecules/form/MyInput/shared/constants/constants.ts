@@ -1,0 +1,1 @@
+export const SELECTABLE_FOR_HIDDING = ['text', 'password'];
