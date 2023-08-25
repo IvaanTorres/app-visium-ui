@@ -2,23 +2,19 @@ import clsx from "clsx"
 import { MySelectOption, MySelectProps } from "./shared/types/types"
 import { mySelectStyle } from "./styles/styles"
 import { useState } from "react"
-import { MyFieldError } from "../../../../shared/types/texts/forms/forms"
-import { MyFieldErrorStyled, MyFieldHelperStyled, MyFieldLabelStyled } from "../../../../shared/styles/form"
+import { MyFieldHelperStyled, MyFieldLabelStyled } from "../../../../shared/styles/form"
 import MyIcon from "../../../atoms/MyIcon/MyIcon"
 import { useToggle } from "../../../../shared/hooks/useToggle"
 
 const MySelect = (props: MySelectProps) => {
-  const [currentValue, setCurrentValue] = useState<MySelectOption | null>(null)
-  const [error, setError] = useState<MyFieldError>(null)
+  const [currentValue, setCurrentValue] = useState<MySelectOption | null>(props.config.options.find((option) => option.isDefault) || null)
   const [isOpened, toggleIsOpened] = useToggle(false)
 
   const handleChange = (option: MySelectOption) => {
     setCurrentValue(option)
-    props.state.set(option, error)
-    toggleIsOpened()
+    props.state.set(option)
 
-    // Remove
-    setError(null)
+    toggleIsOpened()
   }
 
   return (
@@ -40,7 +36,6 @@ const MySelect = (props: MySelectProps) => {
         )}
       </div>
       {props.config.helper && (<MyFieldHelperStyled className="helper">{props.config.helper}</MyFieldHelperStyled>)}
-      {error && (<MyFieldErrorStyled className="error">{error.message}</MyFieldErrorStyled>)}
     </div>
   )
 }

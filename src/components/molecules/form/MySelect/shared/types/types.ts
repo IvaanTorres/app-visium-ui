@@ -1,5 +1,3 @@
-import { MyFieldError } from "../../../../../../shared/types/texts/forms/forms"
-
 export type MySelectConfig = {
   type: 'select',
   label?: string,
@@ -16,7 +14,8 @@ export type MySelectConfig = {
 
 export type MySelectOption = {
   id: string,
-  label: string
+  label: string,
+  isDefault?: boolean
 }
 
 export type MySelectState = MySelectOption
@@ -25,6 +24,6 @@ export type MySelectProps = {
   config: MySelectConfig
   state: {
     get: MySelectState | null
-    set: (value: MySelectState, error: MyFieldError) => void
+    set: (value: MySelectState) => void
   }
 }

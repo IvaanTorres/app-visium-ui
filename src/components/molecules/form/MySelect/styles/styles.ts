@@ -23,6 +23,9 @@ export const mySelectStyle = css`
     }
 
     .options {
+      position: absolute;
+      width: 100%;
+      z-index: 1;
       margin-top: ${spaces.size_6xs};
       border: 1px solid ${colors.grey[700]};
       background-color: ${colors.white};

@@ -29,15 +29,16 @@ const Register = () => {
     stateName: "locale",
     options: [
       {
-        label: "English",
+        label: "En",
         id: "en",
+        isDefault: true,
       },
       {
-        label: "Spanish",
+        label: "Es",
         id: "es",
       },
       {
-        label: "French",
+        label: "Fr",
         id: "fr",
       },
     ],
@@ -45,7 +46,7 @@ const Register = () => {
       classList: '',
       isDisabled: false,
       isRequired: true,
-      hasDropdownIcon: true,
+      hasDropdownIcon: false,
     }
   }
 
@@ -58,8 +59,8 @@ const Register = () => {
           config={config} 
           state={{
             get: null,
-            set: (option, error) => {
-              console.log('SELECT', option, error);
+            set: (option) => {
+              console.log('SELECT', option);
             }
           }}
         />
