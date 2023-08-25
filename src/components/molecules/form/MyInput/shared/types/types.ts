@@ -1,4 +1,5 @@
 import React from "react"
+import { MyFieldError } from "../../../../../../shared/types/texts/forms/forms"
 
 export type MyTextInputConfig = {
   type: 'text' | 'hidden' | 'number',
@@ -17,15 +18,12 @@ export type MyTextInputConfig = {
 }
 
 export type MyTextInputState = string | number
-export type MyTextInputError = {
-  message: string
-} | null
 
 export type MyTextInputProps = {
   config: MyTextInputConfig
   state: {
     get: MyTextInputState
-    set: (value: MyTextInputState, error: MyTextInputError) => void
+    set: (value: MyTextInputState, error: MyFieldError) => void
   }
 }
 
