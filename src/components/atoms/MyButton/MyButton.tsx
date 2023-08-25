@@ -10,6 +10,7 @@ const MyButton = (props: MyButtonProps) => {
     <button
       className={clsx(props.className, buttonStyle, buttonCustom)}
       onClick={props.onClick}
+      type={props.isSubmit ? 'submit' : 'button'}
     >
       {props.children}
     </button>

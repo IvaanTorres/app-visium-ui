@@ -2,6 +2,8 @@ import { css } from "@emotion/css";
 import colors from "../../../../../shared/constants/design-system/colors";
 import { MytextInputStyle } from "../shared/types/types";
 import fontWeights from "../../../../../shared/constants/design-system/font-weights";
+import spaces from "../../../../../shared/constants/design-system/spaces";
+import fontSizes from "../../../../../shared/constants/design-system/font-sizes";
 
 const resetInputStyle = css`
   background-color: transparent;
@@ -38,10 +40,10 @@ export const myTextInputStyle = ({
     display: flex;
     align-items: center;
     background-color: ${isDisabled ? colors.grey[900] : colors.white};
-    border: ${hasError ? `1px solid ${colors.red[500]}` : `1px solid ${colors.grey[300]}`};
+    border: ${hasError ? `1px solid ${colors.red[500]}` : `1px solid ${colors.grey[600]}`};
     box-sizing: border-box;
     height: 40px;
-    gap: 10px;
+    gap: ${spaces.size_4xs};
     cursor: ${isDisabled ? 'not-allowed' : 'usnet'};
 
     .input-prefix {
@@ -49,13 +51,13 @@ export const myTextInputStyle = ({
       align-items: center;
       height: 100%;
       cursor: pointer;
-      padding: 0px 5px;
+      padding: 0px ${spaces.size_6xs};
     }
 
     .input {
       ${resetInputStyle}
       height: 100%;
-      font-size: 16px;
+      font-size: ${fontSizes.text_2xs};
       font-weight: ${fontWeights.bold};
       line-height: 20px;
       color: ${isDisabled ? colors.grey[600] : colors.black};
@@ -69,7 +71,7 @@ export const myTextInputStyle = ({
       align-items: center;
       height: 100%;
       cursor: ${isDisabled ? 'not-allowed' : 'pointer'};
-      padding: 0px 5px;
+      padding: 0px ${spaces.size_6xs};
     }
   }
 

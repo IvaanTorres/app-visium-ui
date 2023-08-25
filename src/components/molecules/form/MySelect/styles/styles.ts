@@ -14,7 +14,7 @@ export const mySelectStyle = css`
       cursor: pointer;
       align-items: center;
       box-sizing: border-box;
-      padding: 0px 10px;
+      padding: 0px ${spaces.size_4xs};
       height: 40px;
       border: 1px solid ${colors.grey[700]};
       background-color: ${colors.white};
@@ -31,7 +31,7 @@ export const mySelectStyle = css`
       background-color: ${colors.white};
 
       .option {
-        padding: 0px 10px;
+        padding: 0px ${spaces.size_4xs};
         height: 40px;
         display: flex;
         align-items: center;
