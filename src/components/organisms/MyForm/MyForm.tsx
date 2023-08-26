@@ -10,8 +10,9 @@ import MyButton from "../../atoms/MyButton/MyButton";
 import clsx from "clsx";
 import { myButtonStyle, myFormStyle } from "./styles/styles";
 
-const MyForm = (props: MyFormProps) => {
+const MyForm: React.FC<MyFormProps> = (props) => {
   const [state, setState] = useState<MyFormState['get']>(props.state.get);
+  // const [hasEmptyRequiredFields, setHasEmptyRequiredFields] = useState(false);
 
   const hasErrors = state.errors.length > 0
 
@@ -71,6 +72,17 @@ const MyForm = (props: MyFormProps) => {
     )
   }
 
+  // It could be good to make this into a object instead of a "if-else" or "switch"
+  // Like this, it doesn't have to pass through all the conditions
+  const hasEmptyRequiredFields = props.config.fields.some(field => {
+    if(isField<MyTextInputConfig>(field, FIELD_TYPES_GROUPS.INPUT)) return (
+      state.values[field.stateName] === '' && field.custom?.isRequired
+    )
+    if(isField<MySelectConfig>(field, FIELD_TYPES_GROUPS.SELECT)) return (
+      state.values[field.stateName] === '' && field.custom?.isRequired
+    )
+  })
+
   return (
     <form onSubmit={handleSubmit} className={clsx(props.custom?.classList, myFormStyle)}>
       <div className="fields">
@@ -91,7 +103,9 @@ const MyForm = (props: MyFormProps) => {
                 onClick={(action.disabled || (hasErrors && action.isSubmit)) ? () => {} : action.onClick}
                 isSubmit={action.isSubmit}
                 className={clsx(myButtonStyle, action.className)}
-                disabled={action.disabled || (hasErrors && action.isSubmit)}
+                disabled={
+                  action.disabled 
+                  || ((hasErrors || hasEmptyRequiredFields) && action.isSubmit)}
               >
                 {action.children}
               </MyButton>

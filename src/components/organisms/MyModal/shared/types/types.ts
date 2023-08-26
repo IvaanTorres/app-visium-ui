@@ -12,6 +12,7 @@ type Actions = {
 export type MyModalProps = {
   className?: string;
   isOpen: boolean;
+  onClose: () => void;
   title: string;
   children: React.ReactNode;
   hasPadding?: boolean;
