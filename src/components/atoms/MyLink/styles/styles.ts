@@ -6,4 +6,5 @@ export const myLinkStyle = css`
   text-decoration: underline;
   cursor: pointer;
   display: inline-block;
+  margin: 0;
 `

@@ -4,12 +4,12 @@ import App from './App.tsx'
 import'./index.css'
 import './config/i18n/i18n.ts'
 import 'normalize.css'
-import Root from './layouts/Root/Root.tsx'
+import RootLayout from './layouts/RootLayout/RootLayout.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Root>
+    <RootLayout>
       <App />
-    </Root>
+    </RootLayout>
   </React.StrictMode>,
 )

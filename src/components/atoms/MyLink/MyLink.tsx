@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom"
 const MyLink = (props: MyLinkProps) => {
   const navigate = useNavigate()
 
-  const handleClick = () => {
+  const handleClick = async (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
+    await props.onClick?.(e)
     navigate(props.to, {
       state: props.state
     })
