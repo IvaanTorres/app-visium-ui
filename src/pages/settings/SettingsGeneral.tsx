@@ -1,37 +1,67 @@
+import { useEffect, useState } from "react"
 import MyButton from "../../components/atoms/MyButton/MyButton"
 import MySection from "../../components/molecules/MySection/MySection"
-import MyForm from "../../components/organisms/MyForm/MyForm"
 import MyModal from "../../components/organisms/MyModal/MyModal"
 import AppLayout from "../../layouts/AppLayout/AppLayout"
 import { useToggle } from "../../shared/hooks/useToggle"
+import { MyFieldError } from "../../shared/types/texts/forms/forms"
+import { sections } from "./config/settingsForms.config"
 import { dangerModalStyle, dangerSectionStyle, settingsPageStyle } from "./styles/styles"
-
-// Good improvement if a change is done in the settings part of the DB structure
-// Separate the settings in groups with a kind of options structure linked to each of them
-// The options structure will be used to generate the form with the correct fields (polymorphic relationships / inheritance)
-// Load fields from the DB, specifying their type, etc.
-const test = [
-  {
-    title: 'General',
-    content: {
-      form: MyForm,
-      config: [],
-    },
-  },
-  {
-    title: 'Profile',
-    content: {
-      form: MyForm,
-      config: [],
-    },
-  },
-]
+import { FormsState } from "./shared/types/types"
+import { MyFormState } from "../../components/organisms/MyForm/shared/types/types"
 
 const SettingsGeneral = () => {
   const [isOpenModal, toggleIsOpenModal] = useToggle(false)
+  const [formsState, setFormsState] = useState<FormsState | null>(null)
+
+  useEffect(() => {
+    setFormsState(setInitialFormsState())
+  }, [])
 
   const handleDeleteAccount = () => {
     console.log('delete account');
+  }
+
+  // TODO: Create handlers
+  const formActions = {
+    general: () => {
+      console.log('general')
+    },
+    profile: () => {
+      console.log('profile')
+    },
+  }
+
+  const settingsSections = sections(formActions)
+
+  const setInitialFormsState = () => {
+    let values = {} as FormsState
+
+    settingsSections.forEach((section) => {
+      const sectionName = section.title.toLowerCase()
+      const sectionFormFields = section.content.config.fields
+      
+      const stateNames = sectionFormFields.map((field) => field.stateName)
+
+      const builtObject = {
+        [sectionName]: {
+          values: {
+            ...stateNames.reduce((acc, stateName) => ({
+              ...acc,
+              [stateName]: null,
+            }), {}),
+          },
+          errors: [] as MyFieldError[],
+        }
+      }
+
+      values = { 
+        ...values,
+        ...builtObject,
+      }
+    })
+
+    return values
   }
 
   return (
@@ -39,21 +69,23 @@ const SettingsGeneral = () => {
       <div className={settingsPageStyle}>
         <h1 className="title">General settings</h1>
         <div className="content">
-          {test.map((section, index) => (
+          {formsState && settingsSections.map((section, index) => (
             <MySection
               key={index}
               title={section.title}
             >
-              {/* <section.content.form
+              <section.content.form
                 config={section.content.config}
                 state={{
-                  get: {
-                    errors: [],
-                    values: {},
+                  get: formsState[section.stateName] as MyFormState['get'],
+                  set: (formState: MyFormState['get']) => {
+                    setFormsState((prev) => ({
+                      ...prev,
+                      [section.title.toLowerCase()]: formState,
+                    } as FormsState))
                   },
-                  set: () => {},
                 }}
-              /> */}
+              />
             </MySection>
           )
           )}

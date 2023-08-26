@@ -4,7 +4,9 @@ import spaces from '../../../../shared/constants/design-system/spaces'
 
 export const buttonCustom = css`
   border: none;
-  padding: ${spaces.size_4xs} ${spaces.size_2xs};
+  /* padding: ${spaces.size_4xs} ${spaces.size_2xs}; */
+  height: 50px;
+  min-width: 200px;
   cursor: pointer;
 `
 

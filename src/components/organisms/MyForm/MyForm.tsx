@@ -10,7 +10,7 @@ import MyButton from "../../atoms/MyButton/MyButton";
 import clsx from "clsx";
 import { myButtonStyle, myFormStyle } from "./styles/styles";
 
-const MyForm = (props: MyFormProps) => {
+const MyForm: React.FC<MyFormProps> = (props) => {
   const [state, setState] = useState<MyFormState['get']>(props.state.get);
   // const [hasEmptyRequiredFields, setHasEmptyRequiredFields] = useState(false);
 

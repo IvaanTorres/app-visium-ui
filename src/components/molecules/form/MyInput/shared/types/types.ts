@@ -1,8 +1,9 @@
 import React from "react"
 import { MyFieldError } from "../../../../../../shared/types/texts/forms/forms"
 
+export type TextInputTypes = 'text' | 'hidden' | 'number'
 export type MyTextInputConfig = {
-  type: 'text' | 'hidden' | 'number',
+  type: TextInputTypes,
   label?: string,
   helper?: string,
   placeholder?: string,

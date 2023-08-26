@@ -16,7 +16,7 @@ import testMultipleRegex from "../../../../shared/helpers/testMultipleRegex"
 // import hasSpecialChars from "../../../../shared/helpers/hasSpecialChars"
 
 const MyInput = (props: MyTextInputProps) => {
-  const [value, setValue] = useState(props.state.get)
+  const [value, setValue] = useState(props.state.get ?? '')
   const [error, setError] = useState<MyFieldError | null>(null)
   const [isContentHidden, toggleContentHidden] = useToggle(true)
   const [debouncedValue, isDebouncing] = useDebounce(value, 300);
