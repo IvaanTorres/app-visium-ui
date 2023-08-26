@@ -12,12 +12,22 @@ const initialFormState: MyFormState['get'] = {
 const formFields: AllFields[] = [
   {
     type: "text",
-    label: "Email or username",
-    helper: "Use your email (ex: john@example.com) or username (ex: john.boston_02)",
-    stateName: "usernameEmail",
+    label: "Email",
+    helper: "Use your email (ex: john@example.com)",
+    stateName: "email",
     custom: {
       isRequired: true,
-      pattern: [REGEX.EMAIL, REGEX.USERNAME],
+      pattern: [REGEX.EMAIL],
+    }
+  },
+  {
+    type: "text",
+    label: "Username",
+    helper: "Use your username (ex: jhon.doe_23)",
+    stateName: "username",
+    custom: {
+      isRequired: true,
+      pattern: [REGEX.USERNAME],
     }
   },
   {
@@ -28,6 +38,15 @@ const formFields: AllFields[] = [
     custom: {
       isRequired: true,
       pattern: [REGEX.PASSWORD],
+    }
+  },
+  {
+    type: "hidden",
+    label: "Repeat password",
+    helper: "Repeat your password to confirm it",
+    stateName: "repeatPassword",
+    custom: {
+      isRequired: true,
     }
   }
 ]

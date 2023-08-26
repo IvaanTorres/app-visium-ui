@@ -20,6 +20,6 @@ export const myAvatarStyle = ({
   }
 
   &:not(img){
-    /*  */
+    color: ${colors.grey[600]};
   }
 `
