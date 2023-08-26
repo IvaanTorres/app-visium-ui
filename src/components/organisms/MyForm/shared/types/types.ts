@@ -8,11 +8,10 @@ import { MySelectConfig } from "../../../../molecules/form/MySelect/shared/types
 // All form fields
 export type AllFields = MyTextInputConfig | MySelectConfig
 
-type Actions = 'primary' | 'secondary' | 'tertiary'
 export type MyFormConfig = {
   fields: AllFields[],
   actions: {
-    [key in Actions]?: MyButtonProps
+    [key: string]: MyButtonProps
   }
 }
 

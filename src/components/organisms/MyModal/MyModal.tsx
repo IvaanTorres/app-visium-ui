@@ -1,13 +1,24 @@
 import clsx from "clsx";
-import { useToggle } from "../../../shared/hooks/useToggle";
 import { AllowedButtonImportances, MyModalProps } from "./shared/types/types";
 import { myModalStyle } from "./styles/styles";
 import MyIcon from "../../atoms/MyIcon/MyIcon";
 import { ICON_CANCEL } from "../../../shared/constants/icons/icons";
 import MyButton from "../../atoms/MyButton/MyButton";
+import { useEffect, useState } from "react";
 
 const MyModal = (props: MyModalProps) => {
-  const [isOpen, toggle] = useToggle(props.isOpen);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setIsOpen(props.isOpen);
+  }, [props.isOpen]);
+
+  const toggle = () => {
+    setIsOpen(!isOpen);
+    if(isOpen){
+      props.onClose();
+    }
+  }
 
   return (
     isOpen && (
