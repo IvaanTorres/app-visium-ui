@@ -14,3 +14,8 @@ export const langSelectStyle = css`
   top: 0;
   right: 0;
 `
+
+export const modalErrorStyle = css`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`

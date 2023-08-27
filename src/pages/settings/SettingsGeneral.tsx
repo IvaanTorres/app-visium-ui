@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import MyButton from "../../components/atoms/MyButton/MyButton"
 import MySection from "../../components/molecules/MySection/MySection"
-import MyModal from "../../components/organisms/MyModal/MyModal"
 import AppLayout from "../../layouts/AppLayout/AppLayout"
 import { useToggle } from "../../shared/hooks/useToggle"
 import { MyFieldError } from "../../shared/types/texts/forms/forms"
 import { sections } from "./config/settingsForms.config"
-import { dangerModalStyle, dangerSectionStyle, settingsPageStyle } from "./styles/styles"
+import { dangerSectionStyle, settingsPageStyle } from "./styles/styles"
 import { FormsState } from "./shared/types/types"
 import { MyFormState } from "../../components/organisms/MyForm/shared/types/types"
+import { DangerModalCustom } from "../../shared/styles/modal"
 
 const SettingsGeneral = () => {
   const [isOpenModal, toggleIsOpenModal] = useToggle(false)
@@ -103,11 +103,10 @@ const SettingsGeneral = () => {
             >Delete Account</MyButton>
           </MySection>
         </div>
-        <MyModal
+        <DangerModalCustom
           isOpen={isOpenModal}
           title="Delete account"
           onClose={toggleIsOpenModal}
-          className={dangerModalStyle}
         >
           <div className="description">
             <p className="title">Are you sure to delete the account ?</p>
@@ -121,7 +120,7 @@ const SettingsGeneral = () => {
           >
             Delete Account
           </MyButton>
-        </MyModal>
+        </DangerModalCustom>
       </div>
     </AppLayout>
   )

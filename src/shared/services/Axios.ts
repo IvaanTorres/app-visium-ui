@@ -1,0 +1,13 @@
+// Set up axios
+import axios from 'axios';
+import { AUTH_TOKEN } from '../constants/localstorage';
+
+const Axios = axios.create({
+  baseURL: 'http://127.0.0.1:8000',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
+  },
+});
+
+export default Axios;
