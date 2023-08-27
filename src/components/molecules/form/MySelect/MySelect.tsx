@@ -1,19 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import clsx from "clsx"
 import { MySelectOption, MySelectProps } from "./shared/types/types"
 import { mySelectStyle } from "./styles/styles"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MyFieldHelperStyled, MyFieldLabelStyled } from "../../../../shared/styles/form"
 import MyIcon from "../../../atoms/MyIcon/MyIcon"
 import { useToggle } from "../../../../shared/hooks/useToggle"
 import isSupportedImage from "../../../../shared/helpers/isSupportedImage"
 
 const MySelect = (props: MySelectProps) => {
-  const [currentValue, setCurrentValue] = useState<MySelectOption | null>(props.config.options.find((option) => option.isDefault) || null)
+  const [currentValue, setCurrentValue] = useState<MySelectOption>(props.config.options.find((option) => option.isDefault) as MySelectOption)
   const [isOpened, toggleIsOpened] = useToggle(false)
+
+  useEffect(() => {
+    props.state.set(currentValue || null)
+  }, [currentValue])
 
   const handleChange = (option: MySelectOption) => {
     setCurrentValue(option)
-    props.state.set(option)
 
     toggleIsOpened()
   }

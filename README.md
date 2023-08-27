@@ -18,6 +18,7 @@ npm run docker:local:staging
 - Make the sidebar items to change their style while they're active or not
 - Load the settings groups dynamically. It would be a good improvement to restructure the DB settings table so we can fetch the groups individually and display them separetaly.
 - Create new variants of modals, links, etc as it's done with the buttons (info, warning, success, danger...)
+- Add info messages using snacks, etc.
 - Instead of using just 1 JWT, use 2 (Access token and refresh token):
     - The refresh token is stored in db and has the ability to let generate access tokens. It can be revoked manually (during logouts, for example). It is stored in the client side part as a httpOnly secure lax/strict cookie so we can check it on server side automatically and don't put it in danger.
     - The access token is stored if possible in memory so everytime we refresh the page, a new acces token will be requested. This is a short life time token (15 min for example unlike the refresh one, which can be much longer).

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MyBox from "../../../components/atoms/MyBox/MyBox"
 import MySelect from "../../../components/molecules/form/MySelect/MySelect"
 import { MySelectOption } from "../../../components/molecules/form/MySelect/shared/types/types"
@@ -14,9 +14,11 @@ import { modalErrorStyle } from "./styles/styles"
 import Axios from "../../../shared/services/Axios"
 import { REGISTER } from "../../../shared/constants/resources"
 import login from "../../../shared/helpers/login"
+import { useTranslation } from "react-i18next"
 
 const Register = () => {
   const navigate = useNavigate()
+  const { t, i18n } = useTranslation();
   const [locale, setLocale] = useState<MySelectOption | null>(null)
   const [modal, setModal] = useState({
     isModalOpen: false,
@@ -32,6 +34,10 @@ const Register = () => {
     errors: [],
   })
 
+  useEffect(() => {
+    console.log(locale);
+  }, [locale])
+
   const toggleModal = () => {
     setModal({
       ...modal,
@@ -43,7 +49,7 @@ const Register = () => {
     if(form.values.password !== form.values.repeatPassword) {
       setModal({
         isModalOpen: true,
-        error: 'Passwords do not match.',
+        error: t('auth.general.passwordsDontMatch'),
       })
       return
     } else {
@@ -51,6 +57,7 @@ const Register = () => {
         username: form.values.username,
         email: form.values.email,
         password: form.values.password,
+        locale: locale?.id,
       })
       
       if(response.data.error) {
@@ -75,16 +82,17 @@ const Register = () => {
           get: locale,
           set: (option) => {
             setLocale(option)
+            i18n.changeLanguage(option.id)
           },
         }}
       />
 
       {/* Card */}
       <MyBox className={authCardStyle}>
-        <h1 className="title">Register</h1>
+        <h1 className="title">{t('auth.register.title')}</h1>
         <MyForm
           config={{
-            fields: registerFormFields,
+            fields: registerFormFields(t),
             actions: {
               register: {
                 children: 'Let\'s go !',
@@ -95,7 +103,7 @@ const Register = () => {
                 disabled: false,
               },
               goToLogin: {
-                children: 'Go to login',
+                children: t('auth.register.goToLogin'),
                 onClick: () => navigate(ROUTE_LOGIN),
                 type: 'info',
                 importance: 'secondary',
@@ -121,7 +129,7 @@ const Register = () => {
         onClose={toggleModal}
       >
         <div>
-          <h2>Oh no !</h2>
+          <h2>{t('general.ohNo')}</h2>
 
           <p className={modalErrorStyle}>{modal.error}</p>
         </div>

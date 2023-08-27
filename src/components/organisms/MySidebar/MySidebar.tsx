@@ -13,8 +13,10 @@ import { avatarStyle, linkStyle, mySidebarStyle, settingButtonStyle } from "./st
 import Axios from "../../../shared/services/Axios"
 import { LOGOUT } from "../../../shared/constants/resources"
 import logout from "../../../shared/helpers/logout"
+import { useTranslation } from "react-i18next"
 
 const MySidebar = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   const handleLogout = async () => {
@@ -35,8 +37,8 @@ const MySidebar = () => {
         {/* Links */}
         <div className="links">
           <LinkStyled color={colors.white}>itoga21.it@gmail.com</LinkStyled>
-          <LinkStyled color={colors.white}>Connections: 5</LinkStyled>
-          <MyLink to={ROUTE_LOGIN} onClick={handleLogout} className={linkStyle}>Logout</MyLink>
+          <LinkStyled color={colors.white}>{t('general.connections')}: 5</LinkStyled>
+          <MyLink to={ROUTE_LOGIN} onClick={handleLogout} className={linkStyle}>{t('auth.logout')}</MyLink>
         </div>
       </div>
       {/* Future listing */}
@@ -48,7 +50,7 @@ const MySidebar = () => {
           className={settingButtonStyle}
         >
           <MyIcon icon={ICON_HOME} size={25} />
-          <span>Homepage</span>
+          <span>{t('homepage.homepage')}</span>
         </MyButton>
         {/* Add items to the menu in future versions */}
       </div>
@@ -61,7 +63,7 @@ const MySidebar = () => {
           className={settingButtonStyle}
         >
           <MyIcon icon={ICON_SETTINGS} size={25} />
-          <span>Settings</span>
+          <span>{t('settings.settings')}</span>
         </MyButton>
       </div>
     </HamburgerLayout>

@@ -14,7 +14,7 @@ const MyForm: React.FC<MyFormProps> = (props) => {
   const [state, setState] = useState<MyFormState['get']>(props.state.get);
   // const [hasEmptyRequiredFields, setHasEmptyRequiredFields] = useState(false);
 
-  const hasErrors = state.errors.length > 0
+  const hasErrors = state?.errors?.length > 0
 
   // Run on every input change (Another option is to run just when the form is submitted)
   function stateSetter<T>(stateName: string, stack: {

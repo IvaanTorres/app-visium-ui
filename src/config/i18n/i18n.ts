@@ -10,7 +10,7 @@ i18n.use(initReactI18next).init({
   de: de,
   fr: fr
  }, // Where we're gonna put translations' files
- lng: "en",     // Set the initial language of the App
+ lng: "fr",     // Set the initial language of the App
 });
 
 export default i18n;

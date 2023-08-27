@@ -6,8 +6,10 @@ import MySelect from "../../components/molecules/form/MySelect/MySelect";
 import { langSelectConfig } from "../../pages/auth/shared/constants/constants";
 import { useState } from "react";
 import { MySelectOption } from "../../components/molecules/form/MySelect/shared/types/types";
+import { useTranslation } from "react-i18next";
 
 const AppLayout = (props: AppLayoutProps) => {
+  const {i18n} = useTranslation()
   const [locale, setLocale] = useState<MySelectOption | null>(null)
   
   return (
@@ -24,6 +26,7 @@ const AppLayout = (props: AppLayoutProps) => {
               get: locale,
               set: (option) => {
                 setLocale(option)
+                i18n.changeLanguage(option?.id)
               },
             }}
           />

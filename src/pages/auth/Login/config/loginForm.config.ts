@@ -1,11 +1,12 @@
+import { TFunction } from "i18next"
 import { AllFields } from "../../../../components/organisms/MyForm/shared/types/types"
 import { REGEX } from "../../../../shared/constants/texts/regex"
 
-const loginFormFields: AllFields[] = [
+const loginFormFields = (t: TFunction<"translation", undefined>): AllFields[] => [
   {
     type: "text",
-    label: "Email or username",
-    helper: "Use your email (ex: john@example.com) or username (ex: john.boston_02)",
+    label: t('auth.general.labels.emailOrUsername'),
+    helper: t('auth.general.helpers.emailOrUsername'),
     stateName: "usernameEmail",
     custom: {
       isRequired: true,
@@ -14,8 +15,8 @@ const loginFormFields: AllFields[] = [
   },
   {
     type: "hidden",
-    label: "Password",
-    helper: "Use your password (Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character)",
+    label: t('auth.general.labels.password'),
+    helper: t('auth.general.helpers.password'),
     stateName: "password",
     custom: {
       isRequired: true,

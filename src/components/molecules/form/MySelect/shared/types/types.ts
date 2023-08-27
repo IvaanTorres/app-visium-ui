@@ -15,7 +15,7 @@ export type MySelectConfig = {
 export type MySelectOption = {
   id: string,
   label: string,
-  isDefault?: boolean
+  isDefault: boolean
 }
 
 export type MySelectState = MySelectOption
