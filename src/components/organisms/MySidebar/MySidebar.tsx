@@ -10,18 +10,18 @@ import MyButton from "../../atoms/MyButton/MyButton"
 import MyIcon from "../../atoms/MyIcon/MyIcon"
 import MyLink from "../../atoms/MyLink/MyLink"
 import { avatarStyle, linkStyle, mySidebarStyle, settingButtonStyle } from "./styles/styles"
-// import Axios from "../../../shared/services/Axios"
-// import { LOGOUT } from "../../../shared/constants/resources"
-// import logout from "../../../shared/helpers/logout"
+import Axios from "../../../shared/services/Axios"
+import { LOGOUT } from "../../../shared/constants/resources"
+import logout from "../../../shared/helpers/logout"
 
 const MySidebar = () => {
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    // await Axios.post(LOGOUT)
+    await Axios.post(LOGOUT)
 
-    // logout()
-    // navigate(ROUTE_LOGIN)
+    logout()
+    navigate(ROUTE_LOGIN)
   }
 
   return (
