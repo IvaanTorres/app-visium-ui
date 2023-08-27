@@ -10,8 +10,13 @@ import { FormsState } from "./shared/types/types"
 import { MyFormState } from "../../components/organisms/MyForm/shared/types/types"
 import { DangerModalCustom } from "../../shared/styles/modal"
 import { useTranslation } from "react-i18next"
+import Axios from "../../shared/services/Axios"
+import { DELETE_ACCOUNT } from "../../shared/constants/resources"
+import { useNavigate } from "react-router-dom"
+import { ROUTE_REGISTER } from "../../shared/constants/router/routes"
 
 const SettingsGeneral = () => {
+  const navigate = useNavigate()
   const { t } = useTranslation()
   const [isOpenModal, toggleIsOpenModal] = useToggle(false)
   const [formsState, setFormsState] = useState<FormsState | null>(null)
@@ -21,8 +26,10 @@ const SettingsGeneral = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleDeleteAccount = () => {
-    console.log('delete account');
+  const handleDeleteAccount = async () => {
+    await Axios.post(DELETE_ACCOUNT)
+    toggleIsOpenModal()
+    navigate(ROUTE_REGISTER)
   }
 
   // TODO: Create handlers
