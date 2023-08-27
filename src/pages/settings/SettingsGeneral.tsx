@@ -16,6 +16,7 @@ const SettingsGeneral = () => {
 
   useEffect(() => {
     setFormsState(setInitialFormsState())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleDeleteAccount = () => {
