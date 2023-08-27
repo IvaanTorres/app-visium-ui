@@ -7,13 +7,16 @@ import Register from "./pages/auth/Register/Register";
 import Login from "./pages/auth/Login/login";
 import SettingsGeneral from "./pages/settings/SettingsGeneral";
 import { ROUTE_HOMEPAGE, ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_SETTINGS } from "./shared/constants/router/routes";
+import CheckAuth from "./layouts/CheckAuth/CheckAuth";
 
 function App() {
-
   const router = createBrowserRouter([
     {
       path: ROUTE_HOMEPAGE,
-      element: <Homepage />,
+      element: 
+        <CheckAuth>
+          <Homepage />
+        </CheckAuth>,
     },
     {
       path: ROUTE_REGISTER,
@@ -25,7 +28,10 @@ function App() {
     },
     {
       path: ROUTE_SETTINGS,
-      element: <SettingsGeneral />,
+      element: 
+        <CheckAuth>
+          <SettingsGeneral />
+        </CheckAuth>,
     },
     
   ]);
