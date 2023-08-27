@@ -1,3 +1,4 @@
+import { TFunction } from "i18next"
 import { TextInputTypes } from "../../../components/molecules/form/MyInput/shared/types/types"
 import MyForm from "../../../components/organisms/MyForm/MyForm"
 import { AllFields } from "../../../components/organisms/MyForm/shared/types/types"
@@ -5,11 +6,11 @@ import { FIELD_TYPES } from "../../../shared/constants/texts/forms"
 import { REGEX } from "../../../shared/constants/texts/regex"
 import { SettingsSectionForm } from "../shared/types/types"
 
-const generalFormFields: AllFields[] = [
+const generalFormFields = (t: TFunction<"translation", undefined>): AllFields[] => [
   {
     type: FIELD_TYPES.NUMBER as TextInputTypes,
-    label: "Welcoming message",
-    helper: "Change the size of your welcoming message",
+    label: t('settings.welcomingMessageSize.label'),
+    helper: t('settings.welcomingMessageSize.helper'),
     stateName: "welcomingMessageSize",
     custom: {
       isRequired: true,
@@ -18,11 +19,11 @@ const generalFormFields: AllFields[] = [
   }
 ]
 
-const profileFormFields: AllFields[] = [
+const profileFormFields = (t: TFunction<"translation", undefined>): AllFields[] => [
   {
     type: FIELD_TYPES.TEXT as TextInputTypes,
-    label: "Username",
-    helper: "Change your username (ex: jhon.doe_23)",
+    label: t('auth.general.labels.username'),
+    helper: t('auth.general.helpers.username'),
     stateName: "username",
     custom: {
       isRequired: true,
@@ -35,7 +36,7 @@ const profileFormFields: AllFields[] = [
 // Separate the settings in groups with a kind of options structure linked to each of them
 // The options structure will be used to generate the form with the correct structure & fields (polymorphic relationships / inheritance)
 // Load fields from the DB, specifying their type, etc.
-export const sections = ({
+export const sections = (t: TFunction<"translation", undefined>, {
   general,
   profile,
 }: {
@@ -44,15 +45,15 @@ export const sections = ({
 }) => {
   const sections: SettingsSectionForm[] = [
     {
-      title: 'General',
+      title: t('general.title'),
       stateName: 'general',
       content: {
         form: MyForm,
         config: {
-          fields: generalFormFields,
+          fields: generalFormFields(t),
           actions: {
             save: {
-              children: 'Save',
+              children: t('general.actions.save'),
               onClick: general,
               type: 'info',
               importance: 'primary',
@@ -63,15 +64,15 @@ export const sections = ({
       },
     },
     {
-      title: 'Profile',
+      title: t('settings.profile'),
       stateName: 'profile',
       content: {
         form: MyForm,
         config: {
-          fields: profileFormFields,
+          fields: profileFormFields(t),
           actions: {
             save: {
-              children: 'Save',
+              children: t('general.actions.save'),
               onClick: profile,
               type: 'info',
               importance: 'primary',

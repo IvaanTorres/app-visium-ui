@@ -15,9 +15,11 @@ import { LOGIN } from "../../../shared/constants/resources"
 import { DangerModalCustom } from "../../../shared/styles/modal"
 import { modalErrorStyle } from "./styles/styles"
 import { REGEX } from "../../../shared/constants/texts/regex"
+import { useTranslation } from "react-i18next"
 
 const Login = () => {
   const navigate = useNavigate()
+  const { t, i18n } = useTranslation();
   const [locale, setLocale] = useState<MySelectOption | null>(null)
   const [modal, setModal] = useState({
     isModalOpen: false,
@@ -41,6 +43,7 @@ const Login = () => {
   const handleLogin = async () => {
     const response = await Axios.post(LOGIN, {
       password: form.values.password,
+      locale: locale?.id,
       ...(REGEX.EMAIL.test(form.values.usernameEmail) && { email: form.values.usernameEmail }),
       ...(REGEX.USERNAME.test(form.values.usernameEmail) && { username: form.values.usernameEmail }),
     })
@@ -66,16 +69,17 @@ const Login = () => {
           get: locale,
           set: (option) => {
             setLocale(option)
+            i18n.changeLanguage(option?.id)
           },
         }}
       />
 
       {/* Card */}
       <MyBox className={authCardStyle}>
-        <h1 className="title">Login</h1>
+        <h1 className="title">{t('auth.login.title')}</h1>
         <MyForm
           config={{
-            fields: loginFormFields,
+            fields: loginFormFields(t),
             actions: {
               primary: {
                 children: 'Let\'s go !',
@@ -85,7 +89,7 @@ const Login = () => {
                 isSubmit: true,
               },
               secondary: {
-                children: 'Go to register',
+                children: t('auth.login.goToRegister'),
                 onClick: () => navigate(ROUTE_REGISTER),
                 type: 'info',
                 importance: 'secondary',
@@ -110,7 +114,7 @@ const Login = () => {
         onClose={toggleModal}
       >
         <div>
-          <h2>Oh no !</h2>
+          <h2>{t('general.ohNo')}</h2>
 
           <p className={modalErrorStyle}>{modal.error}</p>
         </div>

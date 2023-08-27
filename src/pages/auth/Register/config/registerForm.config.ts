@@ -1,11 +1,12 @@
+import { TFunction } from "i18next"
 import { AllFields } from "../../../../components/organisms/MyForm/shared/types/types"
 import { REGEX } from "../../../../shared/constants/texts/regex"
 
-const registerFormFields: AllFields[] = [
+const registerFormFields = (t: TFunction<"translation", undefined>): AllFields[] => ([
   {
     type: "text",
-    label: "Email",
-    helper: "Use your email (ex: john@example.com)",
+    label: t('auth.general.labels.email'),
+    helper: t('auth.general.helpers.email'),
     stateName: "email",
     custom: {
       isRequired: true,
@@ -14,8 +15,8 @@ const registerFormFields: AllFields[] = [
   },
   {
     type: "text",
-    label: "Username",
-    helper: "Use your username (ex: jhon.doe_23)",
+    label: t('auth.general.labels.username'),
+    helper: t('auth.general.helpers.username'),
     stateName: "username",
     custom: {
       isRequired: true,
@@ -24,8 +25,8 @@ const registerFormFields: AllFields[] = [
   },
   {
     type: "hidden",
-    label: "Password",
-    helper: "Use your password (Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character)",
+    label: t('auth.general.labels.password'),
+    helper: t('auth.general.helpers.password'),
     stateName: "password",
     custom: {
       isRequired: true,
@@ -34,13 +35,13 @@ const registerFormFields: AllFields[] = [
   },
   {
     type: "hidden",
-    label: "Repeat password",
-    helper: "Repeat your password to confirm it",
+    label: t('auth.general.labels.repeatPassword'),
+    helper: t('auth.general.helpers.password'),
     stateName: "repeatPassword",
     custom: {
       isRequired: true,
     }
   }
-]
+])
 
 export default registerFormFields

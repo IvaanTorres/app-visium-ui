@@ -9,8 +9,10 @@ import { dangerSectionStyle, settingsPageStyle } from "./styles/styles"
 import { FormsState } from "./shared/types/types"
 import { MyFormState } from "../../components/organisms/MyForm/shared/types/types"
 import { DangerModalCustom } from "../../shared/styles/modal"
+import { useTranslation } from "react-i18next"
 
 const SettingsGeneral = () => {
+  const { t } = useTranslation()
   const [isOpenModal, toggleIsOpenModal] = useToggle(false)
   const [formsState, setFormsState] = useState<FormsState | null>(null)
 
@@ -33,7 +35,7 @@ const SettingsGeneral = () => {
     },
   }
 
-  const settingsSections = sections(formActions)
+  const settingsSections = sections(t, formActions)
 
   const setInitialFormsState = () => {
     let values = {} as FormsState
@@ -68,7 +70,7 @@ const SettingsGeneral = () => {
   return (
     <AppLayout>
       <div className={settingsPageStyle}>
-        <h1 className="title">General settings</h1>
+        <h1 className="title">{t('settings.title')}</h1>
         <div className="content">
           {formsState && settingsSections.map((section, index) => (
             <MySection
@@ -92,7 +94,7 @@ const SettingsGeneral = () => {
           )}
 
           <MySection
-            title="Danger zone"
+            title={t('settings.dangerZone')}
             className={dangerSectionStyle}
           >
             <MyButton 
@@ -100,7 +102,7 @@ const SettingsGeneral = () => {
               importance="primary"
               type="danger"
               className={'button'}
-            >Delete Account</MyButton>
+            >{t('general.actions.deleteAccount')}</MyButton>
           </MySection>
         </div>
         <DangerModalCustom
@@ -109,8 +111,8 @@ const SettingsGeneral = () => {
           onClose={toggleIsOpenModal}
         >
           <div className="description">
-            <p className="title">Are you sure to delete the account ?</p>
-            <p>This action is irreversible</p>
+            <p className="title">{t('settings.deleteAccountQuestion')}</p>
+            <p>{t('general.irreversible')}</p>
           </div>
           <MyButton
             importance="primary"
@@ -118,7 +120,7 @@ const SettingsGeneral = () => {
             onClick={handleDeleteAccount}
             className="button"
           >
-            Delete Account
+            {t('general.actions.deleteAccount')}
           </MyButton>
         </DangerModalCustom>
       </div>
