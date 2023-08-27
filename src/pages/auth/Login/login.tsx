@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import MyBox from "../../../components/atoms/MyBox/MyBox"
 import MySelect from "../../../components/molecules/form/MySelect/MySelect"
 import { MySelectOption } from "../../../components/molecules/form/MySelect/shared/types/types"
@@ -7,12 +7,22 @@ import { MyFormState } from "../../../components/organisms/MyForm/shared/types/t
 import { AuthWrapper, authCardStyle, authFormStyle } from "../styles/styles"
 import { langSelectConfig } from "../shared/constants/constants"
 import { useNavigate } from "react-router-dom"
-import { ROUTE_REGISTER } from "../../../shared/constants/router/routes"
+import { ROUTE_HOMEPAGE, ROUTE_REGISTER } from "../../../shared/constants/router/routes"
 import loginFormFields from "./config/loginForm.config"
+import login from "../../../shared/helpers/login"
+import Axios from "../../../shared/services/Axios"
+import { LOGIN } from "../../../shared/constants/resources"
+import { DangerModalCustom } from "../../../shared/styles/modal"
+import { modalErrorStyle } from "./styles/styles"
+import { REGEX } from "../../../shared/constants/texts/regex"
 
 const Login = () => {
   const navigate = useNavigate()
   const [locale, setLocale] = useState<MySelectOption | null>(null)
+  const [modal, setModal] = useState({
+    isModalOpen: false,
+    error: '',
+  })
   const [form, setForm] = useState<MyFormState['get']>({
     values: {
       usernameEmail: '',
@@ -21,12 +31,30 @@ const Login = () => {
     errors: [],
   })
 
-  useEffect(() => {
-    console.log(form)
-  }, [form])
+  const toggleModal = () => {
+    setModal({
+      ...modal,
+      isModalOpen: !modal.isModalOpen,
+    })
+  }
 
-  const handleLogin = () => {
-    console.log('login')
+  const handleLogin = async () => {
+    const response = await Axios.post(LOGIN, {
+      password: form.values.password,
+      ...(REGEX.EMAIL.test(form.values.usernameEmail) && { email: form.values.usernameEmail }),
+      ...(REGEX.USERNAME.test(form.values.usernameEmail) && { username: form.values.usernameEmail }),
+    })
+    
+    if(response.data.error) {
+      setModal({
+        isModalOpen: true,
+        error: response.data.error.detail,
+      })
+      return
+    }
+
+    login(response.data.refresh_token.token, response.data.refresh_token.expires_in)
+    navigate(ROUTE_HOMEPAGE)
   }
 
   return (
@@ -75,6 +103,18 @@ const Login = () => {
           }}
         />
       </MyBox>
+
+      <DangerModalCustom
+        isOpen={modal.isModalOpen}
+        title="Error"
+        onClose={toggleModal}
+      >
+        <div>
+          <h2>Oh no !</h2>
+
+          <p className={modalErrorStyle}>{modal.error}</p>
+        </div>
+      </DangerModalCustom>
     </AuthWrapper>
   )
 }
