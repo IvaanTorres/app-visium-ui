@@ -11,13 +11,29 @@ import MyIcon from "../../atoms/MyIcon/MyIcon"
 import MyLink from "../../atoms/MyLink/MyLink"
 import { avatarStyle, linkStyle, mySidebarStyle, settingButtonStyle } from "./styles/styles"
 import Axios from "../../../shared/services/Axios"
-import { LOGOUT } from "../../../shared/constants/resources"
+import { GET_LOGIN_NUMBER, LOGOUT } from "../../../shared/constants/resources"
 import logout from "../../../shared/helpers/logout"
 import { useTranslation } from "react-i18next"
+import { useEffect, useState } from "react"
+import { USER } from "../../../shared/constants/localstorage"
 
 const MySidebar = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const [loginCount, setLoginCount] = useState(0)
+
+  const userEmail = localStorage.getItem(USER) 
+    ? JSON.parse(localStorage.getItem(USER) as string).email 
+    : ''
+
+  useEffect(() => {
+    getLoginCount()
+  }, [])
+
+  const getLoginCount = async () => {
+    const { data } = await Axios.get(GET_LOGIN_NUMBER)
+    setLoginCount(data.nb_logins)
+  }
 
   const handleLogout = async () => {
     await Axios.post(LOGOUT)
@@ -32,12 +48,12 @@ const MySidebar = () => {
       <div className="profile">
         {/* Avatar */}
         <div className="avatar">
-          <MyAvatar size={150} value={getInitialLetters('itoga21.it@gmail.com')} className={avatarStyle} />
+          <MyAvatar size={150} value={getInitialLetters(userEmail)} className={avatarStyle} />
         </div>
         {/* Links */}
         <div className="links">
-          <LinkStyled color={colors.white}>itoga21.it@gmail.com</LinkStyled>
-          <LinkStyled color={colors.white}>{t('general.connections')}: 5</LinkStyled>
+          <LinkStyled color={colors.white}>{userEmail}</LinkStyled>
+          <LinkStyled color={colors.white}>{t('general.connections')}: {loginCount}</LinkStyled>
           <MyLink to={ROUTE_LOGIN} onClick={handleLogout} className={linkStyle}>{t('auth.logout')}</MyLink>
         </div>
       </div>

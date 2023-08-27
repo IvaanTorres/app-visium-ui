@@ -11,11 +11,12 @@ import { ROUTE_HOMEPAGE, ROUTE_REGISTER } from "../../../shared/constants/router
 import loginFormFields from "./config/loginForm.config"
 import login from "../../../shared/helpers/login"
 import Axios from "../../../shared/services/Axios"
-import { LOGIN } from "../../../shared/constants/resources"
+import { GET_USER, LOGIN } from "../../../shared/constants/resources"
 import { DangerModalCustom } from "../../../shared/styles/modal"
 import { modalErrorStyle } from "./styles/styles"
 import { REGEX } from "../../../shared/constants/texts/regex"
 import { useTranslation } from "react-i18next"
+import { USER } from "../../../shared/constants/localstorage"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -41,22 +42,26 @@ const Login = () => {
   }
 
   const handleLogin = async () => {
-    const response = await Axios.post(LOGIN, {
+    const {data: loginData} = await Axios.post(LOGIN, {
       password: form.values.password,
       locale: locale?.id,
       ...(REGEX.EMAIL.test(form.values.usernameEmail) && { email: form.values.usernameEmail }),
       ...(REGEX.USERNAME.test(form.values.usernameEmail) && { username: form.values.usernameEmail }),
     })
-    
-    if(response.data.error) {
+
+    if(loginData.error) {
       setModal({
         isModalOpen: true,
-        error: response.data.error.detail,
+        error: loginData.error.detail,
       })
       return
     }
 
-    login(response.data.refresh_token.token, response.data.refresh_token.expires_in)
+    login(loginData.refresh_token.token, loginData.refresh_token.expires_in)
+
+    const {data: userData} = await Axios.get(GET_USER)
+    localStorage.setItem(USER, JSON.stringify(userData.user))
+
     navigate(ROUTE_HOMEPAGE)
   }
 
