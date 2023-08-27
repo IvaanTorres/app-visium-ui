@@ -12,7 +12,6 @@ import { myButtonStyle, myFormStyle } from "./styles/styles";
 
 const MyForm: React.FC<MyFormProps> = (props) => {
   const [state, setState] = useState<MyFormState['get']>(props.state.get);
-  // const [hasEmptyRequiredFields, setHasEmptyRequiredFields] = useState(false);
 
   const hasErrors = state?.errors?.length > 0
 

@@ -8,3 +8,5 @@ export const GET_USER = '/user';
 export const GET_LOCALE = '/settings/language';
 export const GET_WELCOME_MESSAGE = '/settings/general';
 export const GET_LOGIN_NUMBER = '/info/login';
+
+export const SET_PROFILE = '/settings/profile';
