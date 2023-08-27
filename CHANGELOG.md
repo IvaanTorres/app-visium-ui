@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/IvaanTorres/app-visium/compare/v0.1.0...v0.2.0) (2023-08-27)
+
+
+### Features
+
+* **auth:** fill auth pages ([#35](https://github.com/IvaanTorres/app-visium/issues/35)) ([#52](https://github.com/IvaanTorres/app-visium/issues/52)) ([3e22b8b](https://github.com/IvaanTorres/app-visium/commit/3e22b8b48e2c3a75f36f9cfdfbee68bc3f3b761d))
+* **docker:** add new stanging environment ([#5](https://github.com/IvaanTorres/app-visium/issues/5)) ([a65df2b](https://github.com/IvaanTorres/app-visium/commit/a65df2b295a5bc9f230742cd78fcd07ff24a2f79))
+* **homepage + sidebar:** fill homepage + sidebar ([#36](https://github.com/IvaanTorres/app-visium/issues/36)) ([4dee69f](https://github.com/IvaanTorres/app-visium/commit/4dee69fa3c0300aded0756e62cece3b25cb7be85))
+* **login:** login user ([#39](https://github.com/IvaanTorres/app-visium/issues/39)) ([d975bbd](https://github.com/IvaanTorres/app-visium/commit/d975bbdaa8074a1da3aace046994dcb09842daec))
+* **logout:** logout user ([#41](https://github.com/IvaanTorres/app-visium/issues/41)) ([f663392](https://github.com/IvaanTorres/app-visium/commit/f663392307a046864a288370a550150bbe9811af))
+* **register:** register user ([#38](https://github.com/IvaanTorres/app-visium/issues/38)) ([bccd039](https://github.com/IvaanTorres/app-visium/commit/bccd03920a128a960822ba94c31f614ad68042c6))
+* **settings:** fill general settings ([#37](https://github.com/IvaanTorres/app-visium/issues/37)) ([151a79d](https://github.com/IvaanTorres/app-visium/commit/151a79d6cebae574b9bed06d9b4ba36603e1d3ee))
+
 ## 0.1.0 (2023-08-25)
 
 
