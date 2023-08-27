@@ -11,9 +11,10 @@ import { MyFormState } from "../../components/organisms/MyForm/shared/types/type
 import { DangerModalCustom } from "../../shared/styles/modal"
 import { useTranslation } from "react-i18next"
 import Axios from "../../shared/services/Axios"
-import { DELETE_ACCOUNT } from "../../shared/constants/resources"
+import { DELETE_ACCOUNT, SET_PROFILE } from "../../shared/constants/resources"
 import { useNavigate } from "react-router-dom"
 import { ROUTE_REGISTER } from "../../shared/constants/router/routes"
+import { USER } from "../../shared/constants/localstorage"
 
 const SettingsGeneral = () => {
   const navigate = useNavigate()
@@ -34,11 +35,20 @@ const SettingsGeneral = () => {
 
   // TODO: Create handlers
   const formActions = {
-    general: () => {
-      console.log('general')
+    general: async () => {
+      
     },
-    profile: () => {
-      console.log('profile')
+    profile: async () => {
+      const newUsername = formsState && formsState['general'].values.username
+
+      await Axios.post(SET_PROFILE, {
+        username: newUsername,
+      })
+
+      localStorage.setItem(USER, JSON.stringify({
+        ...JSON.parse(localStorage.getItem(USER) as string),
+        username: newUsername,
+      }))
     },
   }
 
@@ -48,7 +58,7 @@ const SettingsGeneral = () => {
     let values = {} as FormsState
 
     settingsSections.forEach((section) => {
-      const sectionName = section.title.toLowerCase()
+      const sectionName = section.stateName
       const sectionFormFields = section.content.config.fields
       
       const stateNames = sectionFormFields.map((field) => field.stateName)
@@ -91,7 +101,7 @@ const SettingsGeneral = () => {
                   set: (formState: MyFormState['get']) => {
                     setFormsState((prev) => ({
                       ...prev,
-                      [section.title.toLowerCase()]: formState,
+                      [section.stateName]: formState,
                     } as FormsState))
                   },
                 }}
