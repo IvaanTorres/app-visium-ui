@@ -15,8 +15,9 @@
     "release:minor": "git add . && standard-version -a --no-verify --release-as minor",
     "release:major": "git add . && standard-version -a --no-verify --release-as major",
     "release:dry": "git add . && standard-version -a --dry-run --no-verify",
-    "docker:local:dev": "docker image prune -f && docker-compose down && docker-compose up --build --remove-orphans",
-    "docker:local:staging": "docker image prune -f && docker-compose down && docker-compose -f ./docker-compose.staging.yml up --build --remove-orphans"
+    "docker:run:dev": "docker image prune -f && docker-compose down && docker-compose up -f ./docker-compose.dev.yml --build --remove-orphans",
+    "docker:run:staging": "docker image prune -f && docker-compose down && docker-compose -f ./docker-compose.staging.yml up --build --remove-orphans",
+    "docker:run:prod": "docker image prune -f && docker-compose down && docker-compose -f ./docker-compose.prod.yml up --build --remove-orphans"
   },
   "dependencies": {
     "@emotion/css": "^11.11.2",
