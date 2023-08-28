@@ -11,10 +11,11 @@ import { ROUTE_HOMEPAGE, ROUTE_LOGIN } from "../../../shared/constants/router/ro
 import registerFormFields from "./config/registerForm.config"
 import { DangerModalCustom } from "../../../shared/styles/modal"
 import { modalErrorStyle } from "./styles/styles"
-import Axios from "../../../shared/services/Axios"
-import { REGISTER } from "../../../shared/constants/resources"
-import login from "../../../shared/helpers/login"
 import { useTranslation } from "react-i18next"
+import { register } from "../../../shared/services/auth/auth"
+import { getProfile } from "../../../shared/services/user/settings"
+import { USER } from "../../../shared/constants/localstorage"
+import loginLocale from "../../../shared/helpers/login"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -52,24 +53,30 @@ const Register = () => {
         error: t('auth.general.passwordsDontMatch'),
       })
       return
-    } else {
-      const response = await Axios.post(REGISTER, {
+    } else if(locale?.id) {
+      const loginData = await register({
         username: form.values.username,
         email: form.values.email,
         password: form.values.password,
-        locale: locale?.id,
-      })
-      
-      if(response.data.error) {
+      }, locale.id)
+        
+      if('error' in loginData) {
         setModal({
           isModalOpen: true,
-          error: response.data.error.detail,
+          error: loginData.error.message,
         })
         return
-      }
+      } else {
+        loginLocale(loginData.data.refresh_token.token, loginData.data.refresh_token.expires_in)
 
-      login(response.data.refresh_token.token, response.data.refresh_token.expires_in)
-      navigate(ROUTE_HOMEPAGE)
+        const user = await getProfile()
+        
+        if('data' in user){
+          localStorage.setItem(USER, JSON.stringify(user.data))
+    
+          navigate(ROUTE_HOMEPAGE)
+        }
+      }
     }
   }
 
