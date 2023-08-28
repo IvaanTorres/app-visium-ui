@@ -7,6 +7,7 @@ export const settingsPageStyle = css`
   background-color: ${colors.white};
   /* The padding was causing the scroll */
   min-height: calc(100% - ${spaces.size_2xs} * 2);
+  height: 100%;
 
   & > .title {
     font-size: 60px;
