@@ -40,7 +40,17 @@ const locale = {
     "welcomingMessageSize": {
       "label": "Welcoming message size",
       "helper": "Change the size of your welcoming message"
-    }
+    },
+    "updateProfileError": "An error occured while updating your profile",
+    "getDatasError": "An error occured while getting your datas",
+    "getDatasErrorContent": "An error occured while getting your datas. Please try again later.",
+    "updateGeneralPreferencesSuccess": "Your general preferences have been updated",
+    "updateGeneralPreferencesSuccessContent": "Your general preferences have been updated.",
+    "updateGeneralPreferencesError": "An error occured while updating your general preferences",
+    "updateGeneralPreferencesErrorContent": "An error occured while updating your general preferences. Please try again later.",
+    "updateProfileSuccess": "Your profile has been updated",
+    "updateProfileSuccessContent": "Your profile has been updated.",
+    "updateProfileErrorContent": "An error occured while updating your profile. Please try again later.",
   },
   "general": {
     "title": "General",
@@ -50,6 +60,7 @@ const locale = {
     "actions": {
       "deleteAccount": "Delete account",
       "save": "Save",
+      "close": "Close",
     }
   }
 }

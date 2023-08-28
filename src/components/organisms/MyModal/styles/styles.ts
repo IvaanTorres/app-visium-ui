@@ -2,6 +2,7 @@ import { css } from "@emotion/css";
 import colors from "../../../../shared/constants/design-system/colors";
 import fontWeights from "../../../../shared/constants/design-system/font-weights";
 import spaces from "../../../../shared/constants/design-system/spaces";
+import fontSizes from "../../../../shared/constants/design-system/font-sizes";
 
 export const myModalStyle = ({
   hasPadding = true,
@@ -53,5 +54,131 @@ export const myModalStyle = ({
     justify-content: flex-end;
     gap: ${spaces.size_4xs};
     flex: 0 0 40px;
+  }
+`
+
+/* ---------------------------------- Types --------------------------------- */
+
+export const info = css`
+  border: 1px solid ${colors.blue[500]};
+
+  .top-bar {
+    background-color: ${colors.blue[500]};
+    border-bottom: 1px solid ${colors.white};
+
+    .title, .close {
+      color: ${colors.white};
+      border-color: ${colors.white};
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .description {
+      font-size: ${fontSizes.text_sm};
+
+      .title {
+        /* text-align: center; */
+        font-size: ${fontSizes.text_lg};
+        font-weight: ${fontWeights.bold};
+        margin: ${spaces.size_2xs} 0;
+      }
+    }
+  }
+`
+
+export const warning = css`
+  border: 1px solid ${colors.yellow[500]};
+
+  .top-bar {
+    background-color: ${colors.yellow[500]};
+    border-bottom: 1px solid ${colors.white};
+
+    .title, .close {
+      color: ${colors.white};
+      border-color: ${colors.white};
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .description {
+      font-size: ${fontSizes.text_sm};
+
+      .title {
+        /* text-align: center; */
+        font-size: ${fontSizes.text_lg};
+        font-weight: ${fontWeights.bold};
+        margin: ${spaces.size_2xs} 0;
+      }
+    }
+  }
+`
+
+export const danger = css`
+  border: 1px solid ${colors.red[500]};
+
+  .top-bar {
+    background-color: ${colors.red[500]};
+    border-bottom: 1px solid ${colors.white};
+
+    .title, .close {
+      color: ${colors.white};
+      border-color: ${colors.white};
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .description {
+      font-size: ${fontSizes.text_sm};
+
+      .title {
+        /* text-align: center; */
+        font-size: ${fontSizes.text_lg};
+        font-weight: ${fontWeights.bold};
+        margin: ${spaces.size_2xs} 0;
+      }
+    }
+  }
+`
+
+export const success = css`
+  border: 1px solid ${colors.green[500]};
+
+  .top-bar {
+    background-color: ${colors.green[500]};
+    border-bottom: 1px solid ${colors.white};
+
+    .title, .close {
+      color: ${colors.white};
+      border-color: ${colors.white};
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .description {
+      font-size: ${fontSizes.text_sm};
+
+      .title {
+        /* text-align: center; */
+        font-size: ${fontSizes.text_lg};
+        font-weight: ${fontWeights.bold};
+        margin: ${spaces.size_2xs} 0;
+      }
+    }
   }
 `
