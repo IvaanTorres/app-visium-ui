@@ -10,14 +10,15 @@ import { FormsState, MappedSettingsDatas } from "./shared/types/types"
 import { MyFormState } from "../../components/organisms/MyForm/shared/types/types"
 import { DangerModalCustom } from "../../shared/styles/modal"
 import { useTranslation } from "react-i18next"
-import Axios from "../../shared/services/Axios"
-import { DELETE_ACCOUNT } from "../../shared/constants/resources"
 import { useNavigate } from "react-router-dom"
-import { ROUTE_REGISTER } from "../../shared/constants/router/routes"
+import { ROUTE_LOGIN, ROUTE_REGISTER } from "../../shared/constants/router/routes"
 import { USER } from "../../shared/constants/localstorage"
 import { getProfile, updateProfile } from "../../shared/services/user/settings"
 import { getGeneralPreferences, updateGeneralPreferences } from "../../shared/services/preferences/general"
 import { isTokenAboutToExpired } from "../../shared/helpers/isTokenAboutToExpired"
+import { deleteAccount, refreshToken } from "../../shared/services/auth/auth"
+import loginLocale from "../../shared/helpers/login"
+import logoutLocale from "../../shared/helpers/logout"
 
 const SettingsGeneral = () => {
   const navigate = useNavigate()
@@ -40,8 +41,16 @@ const SettingsGeneral = () => {
   const initFormsState = async () => {
     if(isTokenAboutToExpired()) {
       // Request new token and retry with recursive function
+      const refreshTokenData = await refreshToken()
 
-      initFormsState()
+      if('data' in refreshTokenData) {
+        loginLocale(refreshTokenData.data.refresh_token.token, refreshTokenData.data.refresh_token.expires_in)
+        initFormsState()
+      } else {
+        console.error('Failed to refresh token');
+        logoutLocale()
+        navigate(ROUTE_LOGIN)
+      }
     } else {
       const [profile, general] = await getDatas()
 
@@ -64,10 +73,23 @@ const SettingsGeneral = () => {
   }
 
   const handleDeleteAccount = async () => {
-    // TODO: Add service to delete account
-    await Axios.post(DELETE_ACCOUNT)
-    toggleIsOpenModal()
-    navigate(ROUTE_REGISTER)
+    if(isTokenAboutToExpired()) {
+      // Request new token and retry with recursive function
+      const refreshTokenData = await refreshToken()
+
+      if('data' in refreshTokenData) {
+        loginLocale(refreshTokenData.data.refresh_token.token, refreshTokenData.data.refresh_token.expires_in)
+        handleDeleteAccount()
+      } else {
+        console.error('Failed to refresh token');
+        logoutLocale()
+        navigate(ROUTE_LOGIN)
+      }
+    } else {
+      await deleteAccount()
+      toggleIsOpenModal()
+      navigate(ROUTE_REGISTER)
+    }
   }
 
   const formActions = {

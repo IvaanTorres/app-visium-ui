@@ -15,8 +15,9 @@ import { useEffect, useState } from "react"
 import { USER } from "../../../shared/constants/localstorage"
 import { getConnectionInfos } from "../../../shared/services/infos/general"
 import logoutLocale from "../../../shared/helpers/logout"
-import { logout } from "../../../shared/services/auth/auth"
+import { logout, refreshToken } from "../../../shared/services/auth/auth"
 import { isTokenAboutToExpired } from "../../../shared/helpers/isTokenAboutToExpired"
+import loginLocale from "../../../shared/helpers/login"
 
 const MySidebar = () => {
   const { t } = useTranslation()
@@ -35,8 +36,16 @@ const MySidebar = () => {
   const getLoginCount = async () => {
     if(isTokenAboutToExpired()) {
       // Request new token and retry with recursive function
+      const refreshTokenData = await refreshToken()
 
-      getLoginCount()
+      if('data' in refreshTokenData) {
+        loginLocale(refreshTokenData.data.refresh_token.token, refreshTokenData.data.refresh_token.expires_in)
+        getLoginCount()
+      } else {
+        console.error('Failed to refresh token');
+        logoutLocale()
+        navigate(ROUTE_LOGIN)
+      }
     } else {
       const connectionInfos = await getConnectionInfos()
 
@@ -51,8 +60,16 @@ const MySidebar = () => {
   const handleLogout = async () => {
     if(isTokenAboutToExpired()) {
       // Request new token and retry with recursive function
+      const refreshTokenData = await refreshToken()
 
-      handleLogout()
+      if('data' in refreshTokenData) {
+        loginLocale(refreshTokenData.data.refresh_token.token, refreshTokenData.data.refresh_token.expires_in)
+        handleLogout()
+      } else {
+        console.error('Failed to refresh token');
+        logoutLocale()
+        navigate(ROUTE_LOGIN)
+      }
     } else {
       const logoutInfos = await logout()
 
