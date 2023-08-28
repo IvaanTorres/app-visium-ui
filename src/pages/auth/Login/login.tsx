@@ -14,18 +14,19 @@ import { DangerModalCustom } from "../../../shared/styles/modal"
 import { modalErrorStyle } from "./styles/styles"
 import { REGEX } from "../../../shared/constants/texts/regex"
 import { useTranslation } from "react-i18next"
-import { USER } from "../../../shared/constants/localstorage"
+import { LOCALE, USER } from "../../../shared/constants/localstorage"
 import { getProfile } from "../../../shared/services/user/settings"
 import { login } from "../../../shared/services/auth/auth"
 
 const Login = () => {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation();
-  const [locale, setLocale] = useState<MySelectOption | null>(null)
+  const [locale, setLocale] = useState<MySelectOption>(null as unknown as MySelectOption)
   const [modal, setModal] = useState({
     isModalOpen: false,
     error: '',
   })
+
   const [form, setForm] = useState<MyFormState['get']>({
     values: {
       usernameEmail: '',
@@ -75,12 +76,13 @@ const Login = () => {
     <AuthWrapper>
       {/* Lang select */}
       <MySelect 
-        config={langSelectConfig}
+        config={langSelectConfig(i18n.language)}
         state={{
           get: locale,
           set: (option) => {
             setLocale(option)
             i18n.changeLanguage(option?.id)
+            localStorage.setItem(LOCALE, option?.id || 'en')
           },
         }}
       />
