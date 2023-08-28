@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import MyBox from "../../../components/atoms/MyBox/MyBox"
 import MySelect from "../../../components/molecules/form/MySelect/MySelect"
 import { MySelectOption } from "../../../components/molecules/form/MySelect/shared/types/types"
@@ -14,13 +14,13 @@ import { modalErrorStyle } from "./styles/styles"
 import { useTranslation } from "react-i18next"
 import { register } from "../../../shared/services/auth/auth"
 import { getProfile } from "../../../shared/services/user/settings"
-import { USER } from "../../../shared/constants/localstorage"
+import { LOCALE, USER } from "../../../shared/constants/localstorage"
 import loginLocale from "../../../shared/helpers/login"
 
 const Register = () => {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation();
-  const [locale, setLocale] = useState<MySelectOption | null>(null)
+  const [locale, setLocale] = useState<MySelectOption>(null as unknown as MySelectOption)
   const [modal, setModal] = useState({
     isModalOpen: false,
     error: '',
@@ -34,10 +34,6 @@ const Register = () => {
     },
     errors: [],
   })
-
-  useEffect(() => {
-    console.log(locale);
-  }, [locale])
 
   const toggleModal = () => {
     setModal({
@@ -84,12 +80,13 @@ const Register = () => {
     <AuthWrapper>
       {/* Lang select */}
       <MySelect 
-        config={langSelectConfig}
+        config={langSelectConfig(i18n.language)}
         state={{
           get: locale,
           set: (option) => {
             setLocale(option)
             i18n.changeLanguage(option.id)
+            localStorage.setItem(LOCALE, option?.id || 'en')
           },
         }}
       />
