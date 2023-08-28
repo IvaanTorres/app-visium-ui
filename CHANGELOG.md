@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/IvaanTorres/app-visium/compare/v0.2.0...v0.3.0) (2023-08-28)
+
+
+### Features
+
+* **#43:** change username ([#43](https://github.com/IvaanTorres/app-visium/issues/43)) ([6d83f03](https://github.com/IvaanTorres/app-visium/commit/6d83f03492a9bbc120b9fd8fdea831b89a5b9227))
+* **account:** delete the user's account ([#44](https://github.com/IvaanTorres/app-visium/issues/44)) ([a0ca23d](https://github.com/IvaanTorres/app-visium/commit/a0ca23d09665a9a94212bda9811e16e5d83a48a5))
+* **general:** change the welcome message size + display it ([#42](https://github.com/IvaanTorres/app-visium/issues/42)) ([1b6c60e](https://github.com/IvaanTorres/app-visium/commit/1b6c60e581f32a6c873a4a9ee11184dcd29be677))
+* **info:** get the history total time of connectinos of the user ([#46](https://github.com/IvaanTorres/app-visium/issues/46)) ([e946890](https://github.com/IvaanTorres/app-visium/commit/e94689004874adf51b59bb20f5894bc8dcc6badf))
+* **locales:** change locale ([#65](https://github.com/IvaanTorres/app-visium/issues/65)) ([fef1329](https://github.com/IvaanTorres/app-visium/commit/fef13299a2f821135c5d6c50deec561d5cd8f163))
+* **modal:** create variants of modal and add them to give feedback ([#70](https://github.com/IvaanTorres/app-visium/issues/70)) ([72cdfbc](https://github.com/IvaanTorres/app-visium/commit/72cdfbca55b2b4e3caa28dccac1624b35c68201f))
+* **refresh:** check for valid token on every request ([#68](https://github.com/IvaanTorres/app-visium/issues/68)) ([958ecef](https://github.com/IvaanTorres/app-visium/commit/958ecef8b974d0d5017b8b4a4bab926c43c4b507))
+
+
+### Bug Fixes
+
+* **settings:** create autocomplete + resolve bug ([#46](https://github.com/IvaanTorres/app-visium/issues/46)) ([3bf34b1](https://github.com/IvaanTorres/app-visium/commit/3bf34b17685173aa47e255d3d99a30593d9a44e6))
+
 ## [0.2.0](https://github.com/IvaanTorres/app-visium/compare/v0.1.0...v0.2.0) (2023-08-27)
 
 
