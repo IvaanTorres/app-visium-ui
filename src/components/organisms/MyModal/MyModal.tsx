@@ -5,9 +5,12 @@ import MyIcon from "../../atoms/MyIcon/MyIcon";
 import { ICON_CANCEL } from "../../../shared/constants/icons/icons";
 import MyButton from "../../atoms/MyButton/MyButton";
 import { useEffect, useState } from "react";
+import modals from "./config/types";
 
 const MyModal = (props: MyModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const modalStyle = modals[props.type]
+  console.log(modalStyle);
 
   useEffect(() => {
     setIsOpen(props.isOpen);
@@ -24,7 +27,7 @@ const MyModal = (props: MyModalProps) => {
     isOpen && (
       <div className={clsx(props.className, myModalStyle({
         hasPadding: props.hasPadding,
-      }))}>
+      }), modalStyle)}>
         {/* Top bar */}
         <div className="top-bar">
           <div className="title">{props.title}</div>

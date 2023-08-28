@@ -19,11 +19,11 @@ const locale = {
         "emailOrUsername": "E-Mail oder Benutzername",
       },
       "helpers": {
-        "email": "Verwenden Sie Ihre E-Mail (z. B. john@example.com)",
-        "username": "Verwenden Sie Ihren Benutzernamen (z. B. jhon.doe_23)",
-        "password": "Verwenden Sie Ihr Passwort (mindestens 8 Zeichen, mindestens 1 Großbuchstabe, 1 Kleinbuchstabe, 1 Zahl und 1 Sonderzeichen)",
+        "email": "Verwenden Sie Ihre E-Mail (z.B. john@example.com)",
+        "username": "Verwenden Sie Ihren Benutzernamen (z.B. jhon.doe_23)",
+        "password": "Verwenden Sie Ihr Passwort (Mindestens 8 Zeichen, mindestens 1 Großbuchstabe, 1 Kleinbuchstabe, 1 Zahl und 1 Sonderzeichen)",
         "repeatPassword": "Wiederholen Sie Ihr Passwort zur Bestätigung",
-        "emailOrUsername": "Verwenden Sie Ihre E-Mail (z. B. john@example.com) oder Ihren Benutzernamen (z. B. john.boston_02)",
+        "emailOrUsername": "Verwenden Sie Ihre E-Mail (z.B. john@example.com) oder Ihren Benutzernamen (z.B. john.boston_02)",
       }
     }
   },
@@ -40,7 +40,17 @@ const locale = {
     "welcomingMessageSize": {
       "label": "Größe der Begrüßungsnachricht",
       "helper": "Ändern Sie die Größe Ihrer Begrüßungsnachricht"
-    }
+    },
+    "updateProfileError": "Beim Aktualisieren Ihres Profils ist ein Fehler aufgetreten",
+    "getDatasError": "Beim Abrufen Ihrer Daten ist ein Fehler aufgetreten",
+    "getDatasErrorContent": "Beim Abrufen Ihrer Daten ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
+    "updateGeneralPreferencesSuccess": "Ihre allgemeinen Einstellungen wurden aktualisiert",
+    "updateGeneralPreferencesSuccessContent": "Ihre allgemeinen Einstellungen wurden aktualisiert.",
+    "updateGeneralPreferencesError": "Beim Aktualisieren Ihrer allgemeinen Einstellungen ist ein Fehler aufgetreten",
+    "updateGeneralPreferencesErrorContent": "Beim Aktualisieren Ihrer allgemeinen Einstellungen ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
+    "updateProfileSuccess": "Ihr Profil wurde aktualisiert",
+    "updateProfileSuccessContent": "Ihr Profil wurde aktualisiert.",
+    "updateProfileErrorContent": "Beim Aktualisieren Ihres Profils ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
   },
   "general": {
     "title": "Allgemein",
@@ -50,6 +60,7 @@ const locale = {
     "actions": {
       "deleteAccount": "Konto löschen",
       "save": "Speichern",
+      "close": "Schließen",
     }
   }
 }

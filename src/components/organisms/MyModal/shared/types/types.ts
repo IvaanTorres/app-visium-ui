@@ -10,6 +10,7 @@ type Actions = {
 }
 
 export type MyModalProps = {
+  type: 'info' | 'success' | 'warning' | 'danger';
   className?: string;
   isOpen: boolean;
   onClose: () => void;

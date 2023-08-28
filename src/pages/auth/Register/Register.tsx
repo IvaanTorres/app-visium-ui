@@ -9,13 +9,13 @@ import { langSelectConfig } from "../shared/constants/constants"
 import { useNavigate } from "react-router-dom"
 import { ROUTE_HOMEPAGE, ROUTE_LOGIN } from "../../../shared/constants/router/routes"
 import registerFormFields from "./config/registerForm.config"
-import { DangerModalCustom } from "../../../shared/styles/modal"
 import { modalErrorStyle } from "./styles/styles"
 import { useTranslation } from "react-i18next"
 import { register } from "../../../shared/services/auth/auth"
 import { getProfile } from "../../../shared/services/user/settings"
 import { LOCALE, USER } from "../../../shared/constants/localstorage"
 import loginLocale from "../../../shared/helpers/login"
+import MyModal from "../../../components/organisms/MyModal/MyModal"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -127,7 +127,8 @@ const Register = () => {
         />
       </MyBox>
 
-      <DangerModalCustom
+      <MyModal
+        type="danger"
         isOpen={modal.isModalOpen}
         title="Error"
         onClose={toggleModal}
@@ -137,7 +138,7 @@ const Register = () => {
 
           <p className={modalErrorStyle}>{modal.error}</p>
         </div>
-      </DangerModalCustom>
+      </MyModal>
     </AuthWrapper>
   )
 }

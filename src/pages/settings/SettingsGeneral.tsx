@@ -2,13 +2,11 @@ import { useEffect, useState } from "react"
 import MyButton from "../../components/atoms/MyButton/MyButton"
 import MySection from "../../components/molecules/MySection/MySection"
 import AppLayout from "../../layouts/AppLayout/AppLayout"
-import { useToggle } from "../../shared/hooks/useToggle"
 import { MyFieldError } from "../../shared/types/texts/forms/forms"
 import { sections } from "./config/settingsForms.config"
 import { dangerSectionStyle, settingsPageStyle } from "./styles/styles"
 import { FormsState, MappedSettingsDatas } from "./shared/types/types"
 import { MyFormState } from "../../components/organisms/MyForm/shared/types/types"
-import { DangerModalCustom } from "../../shared/styles/modal"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 import { ROUTE_LOGIN, ROUTE_REGISTER } from "../../shared/constants/router/routes"
@@ -19,11 +17,23 @@ import { isTokenAboutToExpired } from "../../shared/helpers/isTokenAboutToExpire
 import { deleteAccount, refreshToken } from "../../shared/services/auth/auth"
 import loginLocale from "../../shared/helpers/login"
 import logoutLocale from "../../shared/helpers/logout"
+import MyModal from "../../components/organisms/MyModal/MyModal"
 
 const SettingsGeneral = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const [isOpenModal, toggleIsOpenModal] = useToggle(false)
+  const [modal, setModal] = useState({
+    isOpen: false,
+    type: 'info' as 'info' | 'danger' | 'success' | 'warning',
+    content: {
+      title: '',
+      content: '',
+    }, 
+    action: {
+      text: '',
+      action: () => {},
+    }
+  })
   const [formsState, setFormsState] = useState<FormsState | null>(null)
 
   useEffect(() => {
@@ -67,6 +77,23 @@ const SettingsGeneral = () => {
         setFormsState(setInitialFormsState(mappedDatas))
       } else {
         console.error('Failed to get all datas');
+        setModal({
+          isOpen: true,
+          type: 'danger',
+          content: {
+            title: t('settings.getDatasError'),
+            content: t('settings.getDatasErrorContent'),
+          },
+          action: {
+            text: t('general.actions.close'),
+            action: () => {
+              setModal(prev => ({
+                ...prev,
+                isOpen: false,
+              }))
+            },
+          }
+        })
       }
     }
     
@@ -87,7 +114,6 @@ const SettingsGeneral = () => {
       }
     } else {
       await deleteAccount()
-      toggleIsOpenModal()
       navigate(ROUTE_REGISTER)
     }
   }
@@ -101,8 +127,42 @@ const SettingsGeneral = () => {
 
       if('data' in newGeneralPreferences){
         console.log('General preferences updated');
+        setModal({
+          isOpen: true,
+          type: 'success',
+          content: {
+            title: t('settings.updateGeneralPreferencesSuccess'),
+            content: t('settings.updateGeneralPreferencesSuccessContent'),
+          },
+          action: {
+            text: t('general.actions.close'),
+            action: () => {
+              setModal(prev => ({
+                ...prev,
+                isOpen: false,
+              }))
+            },
+          }
+        })
       } else {
         console.error('Failed to update general preferences');
+        setModal({
+          isOpen: true,
+          type: 'danger',
+          content: {
+            title: t('settings.updateGeneralPreferencesError'),
+            content: t('settings.updateGeneralPreferencesErrorContent'),
+          },
+          action: {
+            text: t('general.actions.close'),
+            action: () => {
+              setModal(prev => ({
+                ...prev,
+                isOpen: false,
+              }))
+            },
+          }
+        })
       }
     },
     profile: async () => {
@@ -116,8 +176,44 @@ const SettingsGeneral = () => {
           ...JSON.parse(localStorage.getItem(USER) as string),
           username: newUsername,
         }))
+
+        console.log('Profile updated');
+        setModal({
+          isOpen: true,
+          type: 'success',
+          content: {
+            title: t('settings.updateProfileSuccess'),
+            content: t('settings.updateProfileSuccessContent'),
+          },
+          action: {
+            text: t('general.actions.close'),
+            action: () => {
+              setModal(prev => ({
+                ...prev,
+                isOpen: false,
+              }))
+            },
+          }
+        })
       } else {
         console.error('Failed to update profile');
+        setModal({
+          isOpen: true,
+          type: 'danger',
+          content: {
+            title: t('settings.updateProfileError'),
+            content: t('settings.updateProfileErrorContent'),
+          },
+          action: {
+            text: t('general.actions.close'),
+            action: () => {
+              setModal(prev => ({
+                ...prev,
+                isOpen: false,
+              }))
+            },
+          }
+        })
       }
     },
   }
@@ -154,6 +250,28 @@ const SettingsGeneral = () => {
     return values
   }
 
+  const handleToggleModal = () => {
+    setModal(prev => ({
+      ...prev,
+      isOpen: !prev.isOpen,
+    }))
+  }
+
+  const handleConfirmDeleteAccount = async () => {
+    setModal({
+      isOpen: true,
+      type: 'danger',
+      content: {
+        title: t('settings.deleteAccountQuestion'),
+        content: t('settings.deleteAccountSuccess'),
+      },
+      action: {
+        text: t('general.actions.deleteAccount'),
+        action: handleDeleteAccount,
+      }
+    })
+  }
+
   return (
     <AppLayout>
       <div className={settingsPageStyle}>
@@ -185,31 +303,32 @@ const SettingsGeneral = () => {
             className={dangerSectionStyle}
           >
             <MyButton 
-              onClick={toggleIsOpenModal}
+              onClick={handleConfirmDeleteAccount}
               importance="primary"
               type="danger"
               className={'button'}
             >{t('general.actions.deleteAccount')}</MyButton>
           </MySection>
         </div>
-        <DangerModalCustom
-          isOpen={isOpenModal}
+        <MyModal
+          type={modal.type}
+          isOpen={modal.isOpen}
           title="Delete account"
-          onClose={toggleIsOpenModal}
+          onClose={handleToggleModal}
         >
           <div className="description">
-            <p className="title">{t('settings.deleteAccountQuestion')}</p>
-            <p>{t('general.irreversible')}</p>
+            <p className="title">{modal.content.title}</p>
+            <p>{modal.content.content}</p>
           </div>
           <MyButton
             importance="primary"
-            type="danger"
-            onClick={handleDeleteAccount}
+            type={modal.type}
+            onClick={modal.action.action}
             className="button"
           >
-            {t('general.actions.deleteAccount')}
+            {modal.action.text}
           </MyButton>
-        </DangerModalCustom>
+        </MyModal>
       </div>
     </AppLayout>
   )
