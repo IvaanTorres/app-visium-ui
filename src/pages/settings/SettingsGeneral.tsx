@@ -17,6 +17,7 @@ import { ROUTE_REGISTER } from "../../shared/constants/router/routes"
 import { USER } from "../../shared/constants/localstorage"
 import { getProfile, updateProfile } from "../../shared/services/user/settings"
 import { getGeneralPreferences, updateGeneralPreferences } from "../../shared/services/preferences/general"
+import { isTokenAboutToExpired } from "../../shared/helpers/isTokenAboutToExpired"
 
 const SettingsGeneral = () => {
   const navigate = useNavigate()
@@ -37,25 +38,33 @@ const SettingsGeneral = () => {
   }
 
   const initFormsState = async () => {
-    const [profile, general] = await getDatas()
+    if(isTokenAboutToExpired()) {
+      // Request new token and retry with recursive function
 
-    if('data' in profile && 'data' in general){
-      const mappedDatas = {
-        general: {
-          welcomingMessageSize: general.data.welcomingMessageSize,
-        },
-        profile: {
-          username: profile.data.username,
-        },
-      }
-
-      setFormsState(setInitialFormsState(mappedDatas))
+      initFormsState()
     } else {
-      console.error('Failed to get all datas');
+      const [profile, general] = await getDatas()
+
+      if('data' in profile && 'data' in general){
+        const mappedDatas = {
+          general: {
+            welcomingMessageSize: general.data.welcomingMessageSize,
+          },
+          profile: {
+            username: profile.data.username,
+          },
+        }
+
+        setFormsState(setInitialFormsState(mappedDatas))
+      } else {
+        console.error('Failed to get all datas');
+      }
     }
+    
   }
 
   const handleDeleteAccount = async () => {
+    // TODO: Add service to delete account
     await Axios.post(DELETE_ACCOUNT)
     toggleIsOpenModal()
     navigate(ROUTE_REGISTER)

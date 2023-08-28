@@ -4,6 +4,7 @@ import { homepagePageStyle } from "./style/style"
 import { USER } from "../../shared/constants/localstorage"
 import { useState, useEffect } from "react"
 import { getGeneralPreferences } from "../../shared/services/preferences/general"
+import { isTokenAboutToExpired } from "../../shared/helpers/isTokenAboutToExpired"
 
 const Homepage = () => {
   const { t } = useTranslation()
@@ -11,15 +12,22 @@ const Homepage = () => {
 
   useEffect(() => {
     handleGetMessageSize()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleGetMessageSize = async () => {
-    const generalPromise = await getGeneralPreferences()
+    if(isTokenAboutToExpired()) {
+      // Request new token and retry with recursive function
 
-    if('data' in generalPromise){
-      setWelcomeMessageSize(+generalPromise.data.welcomingMessageSize)
+      handleGetMessageSize()
     } else {
-      console.error('Failed to get general preferences');
+      const generalPromise = await getGeneralPreferences()
+
+      if('data' in generalPromise){
+        setWelcomeMessageSize(+generalPromise.data.welcomingMessageSize)
+      } else {
+        console.error('Failed to get general preferences');
+      }
     }
   }
 

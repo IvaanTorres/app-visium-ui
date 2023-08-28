@@ -16,6 +16,7 @@ import { USER } from "../../../shared/constants/localstorage"
 import { getConnectionInfos } from "../../../shared/services/infos/general"
 import logoutLocale from "../../../shared/helpers/logout"
 import { logout } from "../../../shared/services/auth/auth"
+import { isTokenAboutToExpired } from "../../../shared/helpers/isTokenAboutToExpired"
 
 const MySidebar = () => {
   const { t } = useTranslation()
@@ -28,26 +29,39 @@ const MySidebar = () => {
 
   useEffect(() => {
     getLoginCount()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const getLoginCount = async () => {
-    const connectionInfos = await getConnectionInfos()
+    if(isTokenAboutToExpired()) {
+      // Request new token and retry with recursive function
 
-    if('data' in connectionInfos){
-      setLoginCount(connectionInfos.data.nb_logins)
+      getLoginCount()
     } else {
-      console.error('Failed to get connection infos');
+      const connectionInfos = await getConnectionInfos()
+
+      if('data' in connectionInfos){
+        setLoginCount(connectionInfos.data.nb_logins)
+      } else {
+        console.error('Failed to get connection infos');
+      }
     }
   }
 
   const handleLogout = async () => {
-    const logoutInfos = await logout()
+    if(isTokenAboutToExpired()) {
+      // Request new token and retry with recursive function
 
-    if('data' in logoutInfos){
-      logoutLocale()
-      navigate(ROUTE_LOGIN)
+      handleLogout()
     } else {
-      console.error('Failed to logout');
+      const logoutInfos = await logout()
+
+      if('data' in logoutInfos){
+        logoutLocale()
+        navigate(ROUTE_LOGIN)
+      } else {
+        console.error('Failed to logout');
+      }
     }
   }
 
