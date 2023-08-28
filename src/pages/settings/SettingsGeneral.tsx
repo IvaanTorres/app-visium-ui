@@ -6,7 +6,7 @@ import { useToggle } from "../../shared/hooks/useToggle"
 import { MyFieldError } from "../../shared/types/texts/forms/forms"
 import { sections } from "./config/settingsForms.config"
 import { dangerSectionStyle, settingsPageStyle } from "./styles/styles"
-import { FormsState } from "./shared/types/types"
+import { FormsState, MappedSettingsDatas } from "./shared/types/types"
 import { MyFormState } from "../../components/organisms/MyForm/shared/types/types"
 import { DangerModalCustom } from "../../shared/styles/modal"
 import { useTranslation } from "react-i18next"
@@ -15,8 +15,8 @@ import { DELETE_ACCOUNT } from "../../shared/constants/resources"
 import { useNavigate } from "react-router-dom"
 import { ROUTE_REGISTER } from "../../shared/constants/router/routes"
 import { USER } from "../../shared/constants/localstorage"
-import { updateProfile } from "../../shared/services/user/settings"
-import { updateGeneralPreferences } from "../../shared/services/preferences/general"
+import { getProfile, updateProfile } from "../../shared/services/user/settings"
+import { getGeneralPreferences, updateGeneralPreferences } from "../../shared/services/preferences/general"
 
 const SettingsGeneral = () => {
   const navigate = useNavigate()
@@ -25,9 +25,35 @@ const SettingsGeneral = () => {
   const [formsState, setFormsState] = useState<FormsState | null>(null)
 
   useEffect(() => {
-    setFormsState(setInitialFormsState())
+    initFormsState()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const getDatas = async () => {
+    const profilePromise = getProfile()
+    const generalPromise = getGeneralPreferences()
+
+    return await Promise.all([profilePromise, generalPromise])
+  }
+
+  const initFormsState = async () => {
+    const [profile, general] = await getDatas()
+
+    if('data' in profile && 'data' in general){
+      const mappedDatas = {
+        general: {
+          welcomingMessageSize: general.data.welcomingMessageSize,
+        },
+        profile: {
+          username: profile.data.username,
+        },
+      }
+
+      setFormsState(setInitialFormsState(mappedDatas))
+    } else {
+      console.error('Failed to get all datas');
+    }
+  }
 
   const handleDeleteAccount = async () => {
     await Axios.post(DELETE_ACCOUNT)
@@ -37,23 +63,37 @@ const SettingsGeneral = () => {
 
   const formActions = {
     general: async () => {
-      const newWelcomingSize = formsState && formsState['general'].values.welcomingMessageSize
-      updateGeneralPreferences(+newWelcomingSize)
+      const newWelcomingSize = formsState && formsState['general'].values.welcomingMessageSize as string
+
+      if(!newWelcomingSize) return
+      const newGeneralPreferences = await updateGeneralPreferences(+newWelcomingSize)
+
+      if('data' in newGeneralPreferences){
+        console.log('General preferences updated');
+      } else {
+        console.error('Failed to update general preferences');
+      }
     },
     profile: async () => {
-      const newUsername = formsState && formsState['profile'].values.username
-      updateProfile(newUsername)
+      const newUsername = formsState && formsState['profile'].values.username as string
 
-      localStorage.setItem(USER, JSON.stringify({
-        ...JSON.parse(localStorage.getItem(USER) as string),
-        username: newUsername,
-      }))
+      if(!newUsername) return
+      const updatedProfile = await updateProfile(newUsername)
+
+      if('data' in updatedProfile){
+        localStorage.setItem(USER, JSON.stringify({
+          ...JSON.parse(localStorage.getItem(USER) as string),
+          username: newUsername,
+        }))
+      } else {
+        console.error('Failed to update profile');
+      }
     },
   }
 
   const settingsSections = sections(t, formActions)
 
-  const setInitialFormsState = () => {
+  const setInitialFormsState = (datas: MappedSettingsDatas) => {
     let values = {} as FormsState
 
     settingsSections.forEach((section) => {
@@ -67,7 +107,7 @@ const SettingsGeneral = () => {
           values: {
             ...stateNames.reduce((acc, stateName) => ({
               ...acc,
-              [stateName]: null,
+              [stateName]: datas[sectionName][stateName],
             }), {}),
           },
           errors: [] as MyFieldError[],

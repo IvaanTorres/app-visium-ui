@@ -10,12 +10,12 @@ import MyButton from "../../atoms/MyButton/MyButton"
 import MyIcon from "../../atoms/MyIcon/MyIcon"
 import MyLink from "../../atoms/MyLink/MyLink"
 import { avatarStyle, linkStyle, mySidebarStyle, settingButtonStyle } from "./styles/styles"
-import Axios from "../../../shared/services/Axios"
-import { GET_LOGIN_NUMBER, LOGOUT } from "../../../shared/constants/resources"
-import logout from "../../../shared/helpers/logout"
 import { useTranslation } from "react-i18next"
 import { useEffect, useState } from "react"
 import { USER } from "../../../shared/constants/localstorage"
+import { getConnectionInfos } from "../../../shared/services/infos/general"
+import logoutLocale from "../../../shared/helpers/logout"
+import { logout } from "../../../shared/services/auth/auth"
 
 const MySidebar = () => {
   const { t } = useTranslation()
@@ -31,15 +31,24 @@ const MySidebar = () => {
   }, [])
 
   const getLoginCount = async () => {
-    const { data } = await Axios.get(GET_LOGIN_NUMBER)
-    setLoginCount(data.nb_logins)
+    const connectionInfos = await getConnectionInfos()
+
+    if('data' in connectionInfos){
+      setLoginCount(connectionInfos.data.nb_logins)
+    } else {
+      console.error('Failed to get connection infos');
+    }
   }
 
   const handleLogout = async () => {
-    await Axios.post(LOGOUT)
+    const logoutInfos = await logout()
 
-    logout()
-    navigate(ROUTE_LOGIN)
+    if('data' in logoutInfos){
+      logoutLocale()
+      navigate(ROUTE_LOGIN)
+    } else {
+      console.error('Failed to logout');
+    }
   }
 
   return (

@@ -14,3 +14,9 @@ export type SettingsSectionForm = {
 export type FormsState = {
   [key in SettingsSections]: MyFormState['get']
 }[]
+
+export type MappedSettingsDatas = {
+  [key in SettingsSections]: {
+    [key: string]: string
+  }
+}

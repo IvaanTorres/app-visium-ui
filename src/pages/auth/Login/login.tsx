@@ -9,14 +9,14 @@ import { langSelectConfig } from "../shared/constants/constants"
 import { useNavigate } from "react-router-dom"
 import { ROUTE_HOMEPAGE, ROUTE_REGISTER } from "../../../shared/constants/router/routes"
 import loginFormFields from "./config/loginForm.config"
-import login from "../../../shared/helpers/login"
-import Axios from "../../../shared/services/Axios"
-import { GET_USER, LOGIN } from "../../../shared/constants/resources"
+import loginLocale from "../../../shared/helpers/login"
 import { DangerModalCustom } from "../../../shared/styles/modal"
 import { modalErrorStyle } from "./styles/styles"
 import { REGEX } from "../../../shared/constants/texts/regex"
 import { useTranslation } from "react-i18next"
 import { USER } from "../../../shared/constants/localstorage"
+import { getProfile } from "../../../shared/services/user/settings"
+import { login } from "../../../shared/services/auth/auth"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -42,27 +42,33 @@ const Login = () => {
   }
 
   const handleLogin = async () => {
-    const {data: loginData} = await Axios.post(LOGIN, {
+    const formData = {
       password: form.values.password,
-      locale: locale?.id,
       ...(REGEX.EMAIL.test(form.values.usernameEmail) && { email: form.values.usernameEmail }),
       ...(REGEX.USERNAME.test(form.values.usernameEmail) && { username: form.values.usernameEmail }),
-    })
-
-    if(loginData.error) {
-      setModal({
-        isModalOpen: true,
-        error: loginData.error.detail,
-      })
-      return
     }
 
-    login(loginData.refresh_token.token, loginData.refresh_token.expires_in)
+    if(locale?.id) {
+      const loginData = await login(formData, locale.id)
+      
+      if('error' in loginData) {
+        setModal({
+          isModalOpen: true,
+          error: loginData.error.message,
+        })
+        return
+      } else {
+        loginLocale(loginData.data.refresh_token.token, loginData.data.refresh_token.expires_in)
 
-    const {data: userData} = await Axios.get(GET_USER)
-    localStorage.setItem(USER, JSON.stringify(userData.user))
-
-    navigate(ROUTE_HOMEPAGE)
+        const user = await getProfile()
+        
+        if('data' in user){
+          localStorage.setItem(USER, JSON.stringify(user.data))
+    
+          navigate(ROUTE_HOMEPAGE)
+        }
+      }
+    }
   }
 
   return (
