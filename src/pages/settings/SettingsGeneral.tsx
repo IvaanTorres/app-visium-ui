@@ -10,13 +10,15 @@ import { FormsState, MappedSettingsDatas } from "./shared/types/types"
 import { MyFormState } from "../../components/organisms/MyForm/shared/types/types"
 import { DangerModalCustom } from "../../shared/styles/modal"
 import { useTranslation } from "react-i18next"
-import Axios from "../../shared/services/Axios"
-import { DELETE_ACCOUNT } from "../../shared/constants/resources"
 import { useNavigate } from "react-router-dom"
-import { ROUTE_REGISTER } from "../../shared/constants/router/routes"
+import { ROUTE_LOGIN, ROUTE_REGISTER } from "../../shared/constants/router/routes"
 import { USER } from "../../shared/constants/localstorage"
 import { getProfile, updateProfile } from "../../shared/services/user/settings"
 import { getGeneralPreferences, updateGeneralPreferences } from "../../shared/services/preferences/general"
+import { isTokenAboutToExpired } from "../../shared/helpers/isTokenAboutToExpired"
+import { deleteAccount, refreshToken } from "../../shared/services/auth/auth"
+import loginLocale from "../../shared/helpers/login"
+import logoutLocale from "../../shared/helpers/logout"
 
 const SettingsGeneral = () => {
   const navigate = useNavigate()
@@ -37,28 +39,57 @@ const SettingsGeneral = () => {
   }
 
   const initFormsState = async () => {
-    const [profile, general] = await getDatas()
+    if(isTokenAboutToExpired()) {
+      // Request new token and retry with recursive function
+      const refreshTokenData = await refreshToken()
 
-    if('data' in profile && 'data' in general){
-      const mappedDatas = {
-        general: {
-          welcomingMessageSize: general.data.welcomingMessageSize,
-        },
-        profile: {
-          username: profile.data.username,
-        },
+      if('data' in refreshTokenData) {
+        loginLocale(refreshTokenData.data.refresh_token.token, refreshTokenData.data.refresh_token.expires_in)
+        initFormsState()
+      } else {
+        console.error('Failed to refresh token');
+        logoutLocale()
+        navigate(ROUTE_LOGIN)
       }
-
-      setFormsState(setInitialFormsState(mappedDatas))
     } else {
-      console.error('Failed to get all datas');
+      const [profile, general] = await getDatas()
+
+      if('data' in profile && 'data' in general){
+        const mappedDatas = {
+          general: {
+            welcomingMessageSize: general.data.welcomingMessageSize,
+          },
+          profile: {
+            username: profile.data.username,
+          },
+        }
+
+        setFormsState(setInitialFormsState(mappedDatas))
+      } else {
+        console.error('Failed to get all datas');
+      }
     }
+    
   }
 
   const handleDeleteAccount = async () => {
-    await Axios.post(DELETE_ACCOUNT)
-    toggleIsOpenModal()
-    navigate(ROUTE_REGISTER)
+    if(isTokenAboutToExpired()) {
+      // Request new token and retry with recursive function
+      const refreshTokenData = await refreshToken()
+
+      if('data' in refreshTokenData) {
+        loginLocale(refreshTokenData.data.refresh_token.token, refreshTokenData.data.refresh_token.expires_in)
+        handleDeleteAccount()
+      } else {
+        console.error('Failed to refresh token');
+        logoutLocale()
+        navigate(ROUTE_LOGIN)
+      }
+    } else {
+      await deleteAccount()
+      toggleIsOpenModal()
+      navigate(ROUTE_REGISTER)
+    }
   }
 
   const formActions = {
