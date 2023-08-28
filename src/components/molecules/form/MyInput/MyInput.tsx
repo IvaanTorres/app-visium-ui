@@ -35,6 +35,7 @@ const MyInput = (props: MyTextInputProps) => {
   useEffect(() => {
     if(!isDebouncing){
       startTransition(() => {
+        console.log(debouncedValue, 'debouncedValue');
         props.state.set(debouncedValue, error);
       })
     }

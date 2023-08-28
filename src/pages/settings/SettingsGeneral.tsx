@@ -11,10 +11,12 @@ import { MyFormState } from "../../components/organisms/MyForm/shared/types/type
 import { DangerModalCustom } from "../../shared/styles/modal"
 import { useTranslation } from "react-i18next"
 import Axios from "../../shared/services/Axios"
-import { DELETE_ACCOUNT, SET_PROFILE } from "../../shared/constants/resources"
+import { DELETE_ACCOUNT } from "../../shared/constants/resources"
 import { useNavigate } from "react-router-dom"
 import { ROUTE_REGISTER } from "../../shared/constants/router/routes"
 import { USER } from "../../shared/constants/localstorage"
+import { updateProfile } from "../../shared/services/user/settings"
+import { updateGeneralPreferences } from "../../shared/services/preferences/general"
 
 const SettingsGeneral = () => {
   const navigate = useNavigate()
@@ -33,17 +35,14 @@ const SettingsGeneral = () => {
     navigate(ROUTE_REGISTER)
   }
 
-  // TODO: Create handlers
   const formActions = {
     general: async () => {
-      
+      const newWelcomingSize = formsState && formsState['general'].values.welcomingMessageSize
+      updateGeneralPreferences(+newWelcomingSize)
     },
     profile: async () => {
-      const newUsername = formsState && formsState['general'].values.username
-
-      await Axios.post(SET_PROFILE, {
-        username: newUsername,
-      })
+      const newUsername = formsState && formsState['profile'].values.username
+      updateProfile(newUsername)
 
       localStorage.setItem(USER, JSON.stringify({
         ...JSON.parse(localStorage.getItem(USER) as string),
